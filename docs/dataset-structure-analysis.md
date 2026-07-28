@@ -2,197 +2,196 @@
 
 ## 1. Dataset Overview
 
-MarketMind AI uses four interrelated datasets that model a retail business environment. All datasets are synthetic but designed with realistic distributions, seasonal patterns, and intentional data quality issues for preprocessing exercises.
+MarketMind AI uses the **Online Retail Transaction Dataset** — a real-world transactional dataset containing all purchases made by customers of a UK-based online retail store. The data spans approximately 2 years and captures international sales of unique all-occasion gifts.
 
-| Dataset | File | Records | Columns | Size (est.) |
-|---------|------|---------|---------|-------------|
-| Sales Transactions | `sales_transactions.csv` | ~5,010 | 11 | ~500 KB |
-| Products | `products.csv` | 200 | 8 | ~20 KB |
-| Customers | `customers.csv` | 500 | 9 | ~40 KB |
-| Inventory | `inventory.csv` | 200 | 9 | ~18 KB |
+| Property | Value |
+|----------|-------|
+| **Source** | UCI Online Retail Dataset |
+| **Format** | Single CSV/Excel file |
+| **Business Type** | UK-based online gift retailer |
+| **Time Span** | December 2010 — December 2011 |
+| **Geography** | International (38+ countries, primarily UK) |
 
 ---
 
 ## 2. Schema Details
 
-### 2.1 Sales Transactions (`sales_transactions.csv`)
+### Transaction Records (Single Flat Table)
 
 | Column | Data Type | Nullable | Description | Example |
 |--------|-----------|----------|-------------|---------|
-| `transaction_id` | String (ID) | No | Unique transaction identifier | TXN-000001 |
-| `date` | Date (YYYY-MM-DD) | ~1% missing | Transaction date | 2025-03-15 |
-| `customer_id` | String (FK) | ~1% missing | Reference to customers table | CUST-0042 |
-| `product_id` | String (FK) | No | Reference to products table | PROD-0103 |
-| `product_name` | String | No | Denormalized product name | TechPro Galaxy Pro X |
-| `category` | String | No | Product category | Electronics |
-| `quantity` | Integer | No | Units purchased (may be negative in dirty data) | 3 |
-| `unit_price` | Decimal | No | Price per unit (may include discounts) | 29.99 |
-| `total_amount` | Decimal | No | quantity × unit_price | 89.97 |
-| `payment_method` | String | No | Payment type | Credit Card |
-| `store_location` | String | No | Store branch name | Downtown Store |
-
-**Key Observations:**
-- Date range: January 1, 2025 — December 31, 2025 (12 months)
-- ~2% of records contain intentional data quality issues (missing customer_id, missing date, negative quantities, extra whitespace)
-- ~10 duplicate records included for preprocessing detection
-- Seasonal patterns: higher transaction volume in Nov-Dec (holiday season), lower in Jan-Feb
-- Day-of-week patterns: higher sales on Fri-Sat, lower on Mon-Tue
-
-### 2.2 Products (`products.csv`)
-
-| Column | Data Type | Nullable | Description | Example |
-|--------|-----------|----------|-------------|---------|
-| `product_id` | String (PK) | No | Unique product identifier | PROD-0001 |
-| `product_name` | String | No | Full product name with brand | TechPro Galaxy Pro X |
-| `category` | String | No | Top-level category | Electronics |
-| `sub_category` | String | No | Sub-category | Smartphones |
-| `brand` | String | No | Brand name | TechPro |
-| `unit_price` | Decimal | No | Retail price | 899.99 |
-| `unit_cost` | Decimal | No | Wholesale/supplier cost | 494.99 |
-| `margin_pct` | Decimal | No | Profit margin percentage | 45.0 |
-
-**Key Observations:**
-- 5 categories: Electronics, Clothing, Groceries, Home & Garden, Sports
-- 40 products per category (8 sub-categories × ~5 products each)
-- Price ranges vary significantly by category (Groceries: $0.99–$29.99, Electronics: $15.99–$1,299.99)
-- Margin percentages range from ~25% to ~70% depending on category
-
-### 2.3 Customers (`customers.csv`)
-
-| Column | Data Type | Nullable | Description | Example |
-|--------|-----------|----------|-------------|---------|
-| `customer_id` | String (PK) | No | Unique customer identifier | CUST-0001 |
-| `name` | String | No | Full name | James Smith |
-| `email` | String | No | Email address (unique) | james.smith@email.com |
-| `phone` | String | No | Phone number | +1-555-123-4567 |
-| `join_date` | Date | No | Account creation date | 2025-02-14 |
-| `segment` | String | No | Customer segment | Premium |
-| `total_purchases` | Integer | No | Total number of purchases | 23 |
-| `last_purchase_date` | Date | Some empty | Date of last transaction | 2025-11-28 |
-| `city` | String | No | Customer city | New York |
-
-**Key Observations:**
-- 5 customer segments with weighted distribution: Regular (35%), Occasional (25%), New (20%), Premium (10%), At-Risk (10%)
-- 20 cities across the US
-- `total_purchases` and `last_purchase_date` are computed from transaction data
-- Some customers may have 0 purchases (no matching transactions)
-
-### 2.4 Inventory (`inventory.csv`)
-
-| Column | Data Type | Nullable | Description | Example |
-|--------|-----------|----------|-------------|---------|
-| `product_id` | String (FK) | No | Reference to products table | PROD-0001 |
-| `product_name` | String | No | Denormalized product name | TechPro Galaxy Pro X |
-| `category` | String | No | Product category | Electronics |
-| `current_stock` | Integer | No | Units currently in stock | 45 |
-| `reorder_level` | Integer | No | Minimum stock threshold | 10 |
-| `supplier` | String | No | Supplier company name | GlobalSupply Co. |
-| `unit_cost` | Decimal | No | Cost per unit | 494.99 |
-| `warehouse_location` | String | No | Warehouse name | Warehouse Alpha - East |
-| `last_restocked` | Date | No | Last restock date | 2025-11-15 |
-
-**Key Observations:**
-- 1:1 relationship with products (one inventory record per product)
-- ~15% of products have stock below reorder level (low-stock condition)
-- 4 warehouse locations
-- 8 suppliers
-- Stock levels vary by category (Groceries: 20–500 units, Electronics: 5–100 units)
+| `Invoice` | String (ID) | No | Invoice number (6-digit). Prefix 'C' indicates a cancellation/return | 536365 |
+| `StockCode` | String (ID) | No | Product/item code (5-digit or alphanumeric) | 85123A |
+| `Description` | String | ~0.3% missing | Product name/description | WHITE HANGING HEART T-LIGHT HOLDER |
+| `Quantity` | Integer | No | Number of units per transaction. Negative values indicate returns | 6 |
+| `InvoiceDate` | DateTime | No | Date and time of transaction | 12/1/2010 8:26 |
+| `Price` | Decimal | No | Unit price in GBP (£). Zero values may exist | 2.55 |
+| `Customer ID` | Numeric | ~25% missing | Customer number (5-digit) | 17850 |
+| `Country` | String | No | Country of customer residence | United Kingdom |
 
 ---
 
 ## 3. Data Type Distribution
 
 ```mermaid
-pie title Column Types Across All Datasets
-    "String/Text" : 22
-    "Decimal/Float" : 10
-    "Integer" : 5
-    "Date" : 6
+pie title Column Types in the Dataset
+    "String/Text" : 4
+    "Numeric (Integer)" : 1
+    "Numeric (Decimal)" : 2
+    "DateTime" : 1
 ```
 
-| Data Type | Count | Percentage | Columns |
-|-----------|-------|------------|---------|
-| String/Text | 22 | 51.2% | IDs, names, categories, brands, methods, locations |
-| Decimal/Float | 10 | 23.3% | Prices, costs, margins, amounts |
-| Integer | 5 | 11.6% | Quantities, stock levels, purchase counts |
-| Date | 6 | 14.0% | Transaction dates, join dates, restock dates |
+| Data Type | Count | Columns |
+|-----------|-------|---------|
+| String/Text | 4 | Invoice, StockCode, Description, Country |
+| Integer | 1 | Quantity |
+| Decimal | 2 | Price, Customer ID |
+| DateTime | 1 | InvoiceDate |
 
 ---
 
-## 4. Inter-Table Relationships
+## 4. Key Observations
+
+### 4.1 Invoice Numbers
+- Regular invoices: 6-digit numeric (e.g., `536365`)
+- Cancellations/returns: Prefixed with `C` (e.g., `C536379`)
+- Each invoice can contain multiple line items (products)
+- An invoice represents a single customer transaction/basket
+
+### 4.2 StockCode Patterns
+- Most codes are 5-digit numeric (e.g., `71053`, `84406B`)
+- Some include letter suffixes (e.g., `85123A`, `84406B`)
+- Special codes exist: `DOT`, `POST`, `M`, `BANK CHARGES`, `PADS`, `AMAZONFEE`
+- Special codes represent non-product charges and should be filtered during preprocessing
+
+### 4.3 Description Field
+- Product names are typically uppercase
+- Descriptions provide insight into product categories (gifts, home décor, kitchenware, stationery)
+- ~0.3% of records have missing descriptions
+- Useful for deriving product categories via text analysis/keyword matching
+
+### 4.4 Quantity
+- Positive values: Regular purchases
+- Negative values: Returns/cancellations (linked to invoices prefixed with `C`)
+- Range: Large negative (returns) to high positive (bulk orders)
+- Zero quantities may exist (anomalies)
+
+### 4.5 Price
+- Unit price in British Pounds (£ GBP)
+- Most products are low-value gifts (£0.50 – £10.00)
+- Some high-value items exist (£50+)
+- Zero prices exist (likely samples, adjustments, or errors)
+- Negative prices may indicate adjustments
+
+### 4.6 Customer ID
+- **~25% of records have missing Customer ID** — the largest data quality issue
+- Guest/anonymous purchases are not linked to customer accounts
+- Customer IDs are 5-digit numbers (e.g., 17850, 13047)
+- Critical for segmentation and churn analysis
+
+### 4.7 Country Distribution
+- **~90% of transactions are from United Kingdom**
+- 38+ countries represented (Germany, France, EIRE, Spain, Netherlands, etc.)
+- International orders provide geographic diversity for analysis
+- Some entries may have country name variations
+
+---
+
+## 5. Derived Tables (from Flat File)
+
+Since the raw dataset is a single flat transaction table, the following normalized tables must be derived during preprocessing:
 
 ```mermaid
 erDiagram
-    PRODUCTS ||--o{ SALES_TRANSACTIONS : "product_id"
-    CUSTOMERS ||--o{ SALES_TRANSACTIONS : "customer_id"
-    PRODUCTS ||--|| INVENTORY : "product_id"
+    RAW_TRANSACTIONS ||--|{ PRODUCTS : "derives"
+    RAW_TRANSACTIONS ||--|{ CUSTOMERS : "derives"
+    RAW_TRANSACTIONS ||--|{ INVOICES : "derives"
+    RAW_TRANSACTIONS ||--|{ INVENTORY : "derives"
+
+    RAW_TRANSACTIONS {
+        string Invoice
+        string StockCode
+        string Description
+        int Quantity
+        datetime InvoiceDate
+        decimal Price
+        decimal CustomerID
+        string Country
+    }
 
     PRODUCTS {
-        string product_id PK
-        string product_name
+        string stock_code PK
+        string description
         string category
+        decimal avg_price
+        int total_sold
     }
 
     CUSTOMERS {
-        string customer_id PK
-        string name
-        string segment
+        int customer_id PK
+        string country
+        int total_orders
+        decimal total_spent
+        date first_purchase
+        date last_purchase
     }
 
-    SALES_TRANSACTIONS {
-        string transaction_id PK
-        string customer_id FK
-        string product_id FK
-        date date
+    INVOICES {
+        string invoice_no PK
+        int customer_id FK
+        datetime invoice_date
         decimal total_amount
+        int item_count
+        string country
+        boolean is_cancelled
     }
 
     INVENTORY {
-        string product_id FK
-        int current_stock
-        int reorder_level
+        string stock_code PK
+        string description
+        int units_sold
+        int units_returned
+        int net_movement
     }
 ```
 
-### Foreign Key Integrity
+---
 
-| Relationship | From Table | To Table | Key | Expected Issues |
-|-------------|-----------|----------|-----|----------------|
-| Transactions → Products | sales_transactions | products | product_id | Clean (always valid) |
-| Transactions → Customers | sales_transactions | customers | customer_id | ~1% missing values |
-| Inventory → Products | inventory | products | product_id | Clean (1:1 mapping) |
+## 6. Data Quality Summary
+
+| Issue Type | Affected Column | Estimated % | Impact |
+|-----------|----------------|-------------|--------|
+| Missing values | Customer ID | ~25% | Cannot segment anonymous customers |
+| Missing values | Description | ~0.3% | Cannot identify product |
+| Negative quantities | Quantity | ~2-3% | Return transactions (valid but need handling) |
+| Zero/negative prices | Price | ~1% | Invalid revenue calculations |
+| Special stock codes | StockCode | ~0.5% | Non-product entries (postage, fees, adjustments) |
+| Duplicate rows | All columns | ~1% | Inflated metrics |
+| Cancelled invoices | Invoice (C-prefix) | ~16% | Must separate from valid sales |
 
 ---
 
-## 5. Data Quality Summary
+## 7. Sample Records
 
-| Issue Type | Affected Dataset | Affected Column(s) | Estimated % | Impact |
-|-----------|-----------------|---------------------|-------------|--------|
-| Missing values | sales_transactions | customer_id | ~1% | Orphaned transactions |
-| Missing values | sales_transactions | date | ~1% | Cannot aggregate by time |
-| Negative values | sales_transactions | quantity | ~0.5% | Invalid transaction amounts |
-| Extra whitespace | sales_transactions | product_name, category | ~0.5% | Category/name mismatches |
-| Duplicate records | sales_transactions | All columns | ~10 records | Inflated metrics |
-| Empty field | customers | last_purchase_date | Variable | Customers without purchases |
+```
+Invoice | StockCode | Description                          | Quantity | InvoiceDate      | Price | Customer ID | Country
+536365  | 85123A    | WHITE HANGING HEART T-LIGHT HOLDER   | 6        | 12/1/2010 8:26   | 2.55  | 17850       | United Kingdom
+536365  | 71053     | WHITE METAL LANTERN                  | 6        | 12/1/2010 8:26   | 3.39  | 17850       | United Kingdom
+536365  | 84406B    | CREAM CUPID HEARTS COAT HANGER       | 8        | 12/1/2010 8:26   | 2.75  | 17850       | United Kingdom
+536366  | 22633     | HAND WARMER UNION JACK               | 6        | 12/1/2010 8:28   | 1.85  | 17850       | United Kingdom
+536367  | 84879     | ASSORTED COLOUR BIRD ORNAMENT        | 32       | 12/1/2010 8:34   | 1.69  | 13047       | United Kingdom
+```
 
 ---
 
-## 6. Sample Records
+## 8. Comparison: Raw vs Processed Schema
 
-### Sales Transactions (first 5)
-```
-transaction_id | date       | customer_id | product_id | product_name              | category    | quantity | unit_price | total_amount | payment_method | store_location
-TXN-000001     | 2025-01-03 | CUST-0127   | PROD-0045  | FreshFarm Whole Milk 1L   | Groceries   | 2        | 3.49       | 6.98         | Credit Card    | Mall Central
-TXN-000002     | 2025-01-03 | CUST-0293   | PROD-0112  | HomeCraft Bookshelf Oak   | Home&Garden | 1        | 189.99     | 189.99       | Debit Card     | Downtown Store
-TXN-000003     | 2025-01-04 | CUST-0015   | PROD-0003  | NovaByte Tab Pro 10       | Electronics | 1        | 449.99     | 449.99       | Digital Wallet | Harbor Point
-TXN-000004     | 2025-01-04 | CUST-0401   | PROD-0078  | ActiveEdge Compression    | Clothing    | 3        | 24.99      | 74.97        | Cash           | Suburban Plaza
-TXN-000005     | 2025-01-05 | CUST-0188   | PROD-0155  | FitForce Dumbbell Set     | Sports      | 1        | 79.99      | 79.99        | Credit Card    | Eastside Market
-```
-
-### Products (first 3)
-```
-product_id | product_name              | category    | sub_category | brand     | unit_price | unit_cost | margin_pct
-PROD-0001  | TechPro Galaxy Pro X      | Electronics | Smartphones  | TechPro   | 899.99     | 494.99    | 45.0
-PROD-0002  | NovaByte iPhone Ultra     | Electronics | Laptops      | NovaByte  | 1199.99    | 659.99    | 45.0
-PROD-0003  | PixelCore Tab Pro 10      | Electronics | Tablets      | PixelCore | 449.99     | 247.49    | 45.0
-```
+| Aspect | Raw Dataset | After Preprocessing |
+|--------|------------|-------------------|
+| Tables | 1 (flat) | 4+ (normalized) |
+| Columns | 8 | 20+ (with derived features) |
+| Returns | Mixed with sales | Separated into own table |
+| Categories | None | Derived from descriptions |
+| Customer profiles | Just ID + Country | Full RFM profiles |
+| Time features | Raw datetime | day_of_week, month, quarter, hour, is_weekend |
+| Revenue | Price × Quantity (manual) | Pre-calculated total_amount column |

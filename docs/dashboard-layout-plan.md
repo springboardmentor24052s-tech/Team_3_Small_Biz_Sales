@@ -18,12 +18,12 @@ graph TD
     D1 --> W3["Alert Feed"]
 
     D2 --> W4["Sales Analytics"]
-    D2 --> W5["Transaction Table"]
-    D2 --> W6["Category Breakdown"]
+    D2 --> W5["Invoice Table"]
+    D2 --> W6["Country Breakdown"]
 
-    D3 --> W7["Stock Levels"]
-    D3 --> W8["Low-Stock Alerts"]
-    D3 --> W9["Warehouse View"]
+    D3 --> W7["Stock Movements"]
+    D3 --> W8["Return Alerts"]
+    D3 --> W9["Product Performance"]
 
     D4 --> W10["Segment Visualization"]
     D4 --> W11["Customer Profiles"]
@@ -48,16 +48,6 @@ All dashboards use a **12-column responsive grid** system consistent with the No
 | Desktop (1024px) | 12 | 24px | 1024px |
 | Wide Desktop (≥ 1280px) | 12 | 32px | 1280px |
 
-### Widget Size Classes
-
-| Size | Grid Span | Use Case |
-|------|-----------|----------|
-| **XS** | 3 columns | KPI metric cards |
-| **SM** | 4 columns | Small charts, stat panels |
-| **MD** | 6 columns | Medium charts, half-width panels |
-| **LG** | 8 columns | Large charts, data tables |
-| **XL** | 12 columns | Full-width charts, detailed tables |
-
 ---
 
 ## 3. Dashboard Specifications
@@ -71,45 +61,44 @@ The primary landing page after login. Provides a high-level snapshot of business
 │  SIDEBAR  │  🏠 Overview Dashboard            [Date Picker ▾]  │
 │           │                                                     │
 │  🏠 Overview│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│  💰 Sales  │  │ 💰Revenue │ │ 📦Orders  │ │ 👤Customers│ │ 📊AOV    │ │
-│  📦 Inventory│ │ $284,500  │ │  5,010   │ │    500    │ │  $56.79  │ │
-│  👥 Customers│ │ ↑12.5%   │ │ ↑8.3%    │ │ ↑15.2%   │ │ ↑3.8%   │ │
+│  💰 Sales  │  │ 💰Revenue │ │ 🛒Orders  │ │ 👤Customers│ │ 📉Returns  │ │
+│  📦 Inventory│ │ £124,500  │ │  1,210   │ │    420    │ │   3.2%   │ │
+│  👥 Customers│ │ ↑12.5%   │ │ ↑8.3%    │ │ ↑15.2%   │ │ ↓0.8%   │ │
 │  🤖 AI     │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
-│  🧾 Invoices│                                                     │
-│  📋 Reports│  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  📈 Revenue Trend        │ │  🔔 Active Alerts   │ │
-│  ─────── │  │  (Line Chart - 12 months)│ │  ┌── Low Stock: 12 │ │
-│  ⚙️ Settings│ │                         │ │  ├── Anomalies: 3  │ │
-│  👤 Profile│ │                         │ │  └── Churn Risk: 8  │ │
+│  ─────── │                                                     │
+│  ⚙️ Settings│  ┌─────────────────────────┐ ┌─────────────────────┐ │
+│  👤 Profile│  │  📈 Revenue Trend        │ │  🔔 Active Alerts   │ │
+│           │  │  (Line Chart - 12 months)│ │  ┌── Zero Price: 2 │ │
+│           │  │                         │ │  ├── High Return: 3 │ │
+│           │  │                         │ │  └── Churn Risk: 8  │ │
 │           │  └─────────────────────────┘ └─────────────────────┘ │
 │           │                                                     │
 │           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  🥧 Sales by Category   │ │  🏆 Top 5 Products  │ │
-│           │  │  (Donut Chart)          │ │  (Horizontal Bar)   │ │
-│           │  │                         │ │                     │ │
+│           │  │  🌍 Sales by Country    │ │  🏆 Top 5 Products  │ │
+│           │  │  (Map/Bar Chart)        │ │  (Horizontal Bar)   │ │
 │           │  └─────────────────────────┘ └─────────────────────┘ │
 │           │                                                     │
 │           │  ┌───────────────────────────────────────────────────┐ │
-│           │  │  📋 Recent Transactions (Table - Last 10)         │ │
-│           │  │  ID  | Date  | Customer | Product | Amount | Pay  │ │
-│           │  │  ─── | ───── | ──────── | ─────── | ────── | ─── │ │
+│           │  │  📋 Recent Invoices (Table - Last 10)             │ │
+│           │  │  Invoice | Date  | Customer | Items | Total | Ctry│ │
+│           │  │  ─────── | ───── | ──────── | ───── | ───── | ─── │ │
 │           │  └───────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 #### Widget Specifications
 
-| Widget | Grid Span | Chart Type | Data Source | Color |
-|--------|-----------|-----------|-------------|-------|
-| Revenue KPI | 3 col | Metric card | SUM(total_amount) | `card-tint-mint` |
-| Orders KPI | 3 col | Metric card | COUNT(transactions) | `card-tint-sky` |
-| Customers KPI | 3 col | Metric card | COUNT(customers) | `card-tint-lavender` |
-| AOV KPI | 3 col | Metric card | AVG(total_amount) | `card-tint-peach` |
-| Revenue Trend | 8 col | Line chart | Monthly revenue | `primary` (#5645d4) |
-| Active Alerts | 4 col | Alert list | anomaly_alerts | Semantic colors |
-| Sales by Category | 6 col | Donut chart | SUM by category | Pastel palette |
-| Top Products | 6 col | Horizontal bar | TOP 5 by revenue | Brand colors |
-| Recent Transactions | 12 col | Data table | Last 10 transactions | — |
+| Widget | Grid Span | Data Source |
+|--------|-----------|-------------|
+| Revenue KPI | 3 col | SUM(Price × Quantity) where Quantity > 0 |
+| Orders KPI | 3 col | COUNT(DISTINCT Invoice) where not starts with 'C' |
+| Customers KPI | 3 col | COUNT(DISTINCT Customer ID) |
+| Returns KPI | 3 col | ABS(SUM(Quantity < 0)) / SUM(Quantity > 0) |
+| Revenue Trend | 8 col | Monthly revenue aggregated |
+| Active Alerts | 4 col | anomaly_alerts table |
+| Sales by Country | 6 col | SUM revenue grouped by Country |
+| Top Products | 6 col | TOP 5 StockCode by revenue |
+| Recent Invoices | 12 col | Last 10 distinct invoices |
 
 ---
 
@@ -119,32 +108,25 @@ Deep-dive into sales performance with filtering and drill-down capabilities.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  SIDEBAR  │  💰 Sales Dashboard  [Date Range] [Category ▾] [Store ▾] │
+│  SIDEBAR  │  💰 Sales Dashboard  [Date Range] [Country ▾]      │
 │           │                                                     │
 │           │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│           │  │ 💰Total   │ │ 📊Avg Txn │ │ 📈Growth  │ │ 🏷️Margin │ │
-│           │  │ Revenue   │ │  Value   │ │   Rate   │ │  Average │ │
-│           │  │ $284,500  │ │  $56.79  │ │  +12.5%  │ │  42.3%  │ │
+│           │  │ 💰Total   │ │ 📊Avg Val │ │ 📈Growth  │ │ 🛒Items/Ord│
+│           │  │ Revenue   │ │  /Order  │ │   Rate   │ │   (Avg)  │ │
+│           │  │ £124,500  │ │  £102.89 │ │  +12.5%  │ │   14.2   │ │
 │           │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
 │           │                                                     │
 │           │  ┌───────────────────────────────────────────────────┐ │
 │           │  │  📈 Daily Sales Trend (Area Chart with Forecast)  │ │
-│           │  │  ═══════════════════════════════════════════════  │ │
-│           │  │  [Actual ████████████████] [Forecast ░░░░░░░░░]  │ │
 │           │  └───────────────────────────────────────────────────┘ │
 │           │                                                     │
 │           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  📊 Revenue by Store    │ │  💳 Payment Methods  │ │
-│           │  │  (Grouped Bar Chart)    │ │  (Pie Chart)        │ │
-│           │  └─────────────────────────┘ └─────────────────────┘ │
-│           │                                                     │
-│           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  📅 Weekly Heatmap      │ │  📊 Category Trend  │ │
-│           │  │  (Day × Hour Grid)      │ │  (Stacked Area)     │ │
+│           │  │  🌍 Revenue by Country  │ │  ⏰ Sales by Hour   │ │
+│           │  │  (Grouped Bar Chart)    │ │  (Radar/Bar Chart)  │ │
 │           │  └─────────────────────────┘ └─────────────────────┘ │
 │           │                                                     │
 │           │  ┌───────────────────────────────────────────────────┐ │
-│           │  │  📋 All Transactions (Paginated Table)            │ │
+│           │  │  📋 All Invoices (Paginated Table)                │ │
 │           │  │  [Search] [Filter] [Export CSV] [Export PDF]      │ │
 │           │  └───────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
@@ -152,36 +134,34 @@ Deep-dive into sales performance with filtering and drill-down capabilities.
 
 ---
 
-### 3.3 Inventory Dashboard 📦
+### 3.3 Inventory & Products Dashboard 📦
 
-Stock management with alerts and warehouse tracking.
+Since the dataset doesn't have true inventory counts, this focuses on product performance and returns.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  SIDEBAR  │  📦 Inventory Dashboard  [Warehouse ▾] [Category ▾] │
+│  SIDEBAR  │  📦 Products Dashboard   [Category ▾]              │
 │           │                                                     │
 │           │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│           │  │ 📦Total   │ │ ⚠️Low     │ │ 🔴Critical│ │ 📊Turnover│
-│           │  │ Products  │ │  Stock   │ │  Stock   │ │   Rate   │ │
-│           │  │   200     │ │   24     │ │    6     │ │   4.2x   │ │
+│           │  │ 📦Total   │ │ 📈Units   │ │ 📉Return  │ │ 🏷️Avg Price│
+│           │  │ Products  │ │  Sold    │ │   Rate   │ │          │ │
+│           │  │  3,800    │ │  84,200  │ │   3.2%   │ │   £2.80  │ │
 │           │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
 │           │                                                     │
 │           │  ┌───────────────────────────────────────────────────┐ │
-│           │  │  🚨 Stock Alerts (Critical & Low Stock Items)      │ │
-│           │  │  ┌─ 🔴 PROD-0023: 2 units (reorder: 10) ──── ↗  │ │
-│           │  │  ├─ 🔴 PROD-0089: 0 units (reorder: 5) ───── ↗  │ │
-│           │  │  ├─ ⚠️ PROD-0145: 8 units (reorder: 15) ──── ↗  │ │
-│           │  │  └─ ⚠️ PROD-0167: 12 units (reorder: 20) ─── ↗  │ │
+│           │  │  🚨 Return Alerts (High Return Rate Products)      │ │
+│           │  │  ┌─ 🔴 85123A: 15% return rate (Avg: 3%) ──── ↗ │ │
+│           │  │  └─ ⚠️ 71053: 8% return rate ──────────────── ↗ │ │
 │           │  └───────────────────────────────────────────────────┘ │
 │           │                                                     │
 │           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  📊 Stock by Category   │ │  🏭 Warehouse Usage │ │
-│           │  │  (Stacked Bar)          │ │  (Treemap)          │ │
+│           │  │  📊 Top Selling Items   │ │  📉 Highest Returns │ │
+│           │  │  (Horizontal Bar)       │ │  (Horizontal Bar)   │ │
 │           │  └─────────────────────────┘ └─────────────────────┘ │
 │           │                                                     │
 │           │  ┌───────────────────────────────────────────────────┐ │
-│           │  │  📋 Full Inventory Table (Sortable)               │ │
-│           │  │  Product | Stock | Reorder | Status | Supplier    │ │
+│           │  │  📋 Full Product List (Sortable)                  │ │
+│           │  │  Code | Description | Sold | Returned | Avg Price │ │
 │           │  └───────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -194,66 +174,23 @@ Customer segmentation, behavior analysis, and RFM scoring.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  SIDEBAR  │  👥 Customers Dashboard  [Segment ▾] [City ▾]      │
+│  SIDEBAR  │  👥 Customers Dashboard  [Segment ▾] [Country ▾]   │
 │           │                                                     │
 │           │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│           │  │ 👤Total   │ │ 🏆Premium │ │ ⚠️At-Risk │ │ 💰Avg LTV│ │
+│           │  │ 👤Known   │ │ 🏆Premium │ │ ⚠️At-Risk │ │ 💰Avg LTV│ │
 │           │  │ Customers │ │ Customers│ │ Customers│ │  Value   │ │
-│           │  │   500     │ │   50     │ │   50     │ │  $569    │ │
+│           │  │  4,372    │ │   420    │ │   350    │ │  £1,869  │ │
 │           │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
 │           │                                                     │
 │           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
 │           │  │  👥 Segment Distribution │ │  📊 RFM Scatter Plot│ │
 │           │  │  (Donut Chart)          │ │  (Bubble Chart)     │ │
-│           │  │  ■ Premium   ■ Regular  │ │  X: Recency         │ │
-│           │  │  ■ Occasional ■ New     │ │  Y: Frequency       │ │
-│           │  │  ■ At-Risk              │ │  Size: Monetary     │ │
-│           │  └─────────────────────────┘ └─────────────────────┘ │
-│           │                                                     │
-│           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  📈 Acquisition Trend   │ │  🌍 City Distribution│ │
-│           │  │  (Line - Monthly)       │ │  (Horizontal Bar)   │ │
 │           │  └─────────────────────────┘ └─────────────────────┘ │
 │           │                                                     │
 │           │  ┌───────────────────────────────────────────────────┐ │
 │           │  │  📋 Customer Table (Searchable, Segment-filterable)│
-│           │  │  Name | Segment | Purchases | LTV | Last Active   │ │
+│           │  │  ID | Segment | Orders | LTV | Last Active | Ctry │ │
 │           │  └───────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-```
-
----
-
-### 3.5 AI Insights Dashboard 🤖
-
-AI/ML model outputs, predictions, and intelligent recommendations.
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  SIDEBAR  │  🤖 AI Insights Dashboard  [Model ▾] [Refresh 🔄]  │
-│           │                                                     │
-│           │  ┌──── 🔮 Sales Forecast ───────────────────────────┐ │
-│           │  │  (Line Chart: Actual vs Predicted + Confidence)  │ │
-│           │  │  ───── Actual  ─ ─ ─ Predicted  ░░░ Confidence  │ │
-│           │  │  Model: Prophet | MAE: 8.2% | R²: 0.87          │ │
-│           │  └───────────────────────────────────────────────────┘ │
-│           │                                                     │
-│           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  ⚡ Churn Risk Panel    │ │  💡 Top Recommendations│
-│           │  │  ┌─ 🔴 High Risk: 12   │ │  ┌─ Customer A:     │ │
-│           │  │  ├─ ⚠️ Medium: 28     │ │  │  → Product X, Y  │ │
-│           │  │  └─ ✅ Low: 460       │ │  ├─ Customer B:     │ │
-│           │  │                         │ │  │  → Product Z     │ │
-│           │  │  [View All At-Risk →]   │ │  └─ [View All →]   │ │
-│           │  └─────────────────────────┘ └─────────────────────┘ │
-│           │                                                     │
-│           │  ┌─────────────────────────┐ ┌─────────────────────┐ │
-│           │  │  🚨 Anomaly Detections  │ │  📊 Model Performance│ │
-│           │  │  (Timeline Feed)        │ │  (Radar Chart)      │ │
-│           │  │  ┌── Unusual spike...   │ │  MAE | RMSE | R²    │ │
-│           │  │  ├── Stock anomaly...   │ │  Precision | Recall │ │
-│           │  │  └── Revenue outlier... │ │                     │ │
-│           │  └─────────────────────────┘ └─────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -263,39 +200,17 @@ AI/ML model outputs, predictions, and intelligent recommendations.
 
 Each role sees a filtered version of the dashboards based on the RBAC access matrix.
 
-| Dashboard | Business Owner | Store Manager | Sales Executive | Admin |
-|-----------|:--------------:|:-------------:|:---------------:|:-----:|
-| 🏠 Overview | ✅ Full | ✅ Full | ⚠️ Sales only | ✅ Full |
-| 💰 Sales | ✅ Full | ✅ Full | ⚠️ Own records | ✅ Full |
-| 📦 Inventory | 👁️ View only | ✅ Full + Edit | ❌ Hidden | ✅ Full |
-| 👥 Customers | ✅ Full | ✅ Summary only | ⚠️ Assigned only | ✅ Full |
-| 🤖 AI Insights | ✅ Full | 👁️ View only | ❌ Hidden | ✅ Full + Config |
-| 🧾 Invoices | 👁️ View only | 👁️ View only | ✅ Full CRUD | ✅ Full |
+| Dashboard | Admin/Owner | Store Manager | Sales Executive |
+|-----------|:-----------:|:-------------:|:---------------:|
+| 🏠 Overview | ✅ Full | ✅ Full | ⚠️ Limited |
+| 💰 Sales | ✅ Full | ✅ Full | ⚠️ Own assigned |
+| 📦 Products | ✅ Full | ✅ Full | ❌ Hidden |
+| 👥 Customers | ✅ Full | ✅ Summary only | ⚠️ Assigned only|
+| 🤖 AI Insights | ✅ Full | 👁️ View only | ❌ Hidden |
 
 ---
 
-## 5. Interaction Patterns
-
-### 5.1 Global Filters (Persistent Across Dashboards)
-- **Date Range Picker**: Preset options (Today, 7 Days, 30 Days, Quarter, Year, Custom)
-- **Store Location**: Multi-select dropdown
-- **Category**: Multi-select dropdown
-
-### 5.2 Widget Interactions
-- **Hover**: Tooltip with exact values and percentage context
-- **Click on chart segment**: Drill-down to filtered view
-- **Click on table row**: Navigate to detail page
-- **Export button**: Download as CSV or PDF
-- **Refresh button**: Reload data (auto-refresh every 5 minutes)
-
-### 5.3 Navigation Pattern
-```
-Sidebar (permanent) → Dashboard Page → Widget → Detail View → Back
-```
-
----
-
-## 6. Chart Color Palette
+## 5. Chart Color Palette
 
 Using the Notion design system pastel tints for chart series, ensuring accessibility and brand consistency.
 
@@ -303,25 +218,9 @@ Using the Notion design system pastel tints for chart series, ensuring accessibi
 |--------|------------|-----|-----|
 | Series 1 | `primary` | #5645d4 | Primary metric, revenue |
 | Series 2 | `brand-teal` | #2a9d99 | Secondary metric, orders |
-| Series 3 | `brand-orange` | #dd5b00 | Tertiary, categories |
-| Series 4 | `brand-pink` | #ff64c8 | Accent, segments |
-| Series 5 | `brand-green` | #1aae39 | Positive indicators |
+| Series 3 | `brand-orange` | #dd5b00 | Tertiary, categories/countries |
+| Alert High | `semantic-error` | #e03131 | Returns, Cancellations |
 | KPI Card 1 | `card-tint-mint` | #d9f3e1 | Revenue card |
 | KPI Card 2 | `card-tint-sky` | #dcecfa | Orders card |
 | KPI Card 3 | `card-tint-lavender` | #e6e0f5 | Customers card |
-| KPI Card 4 | `card-tint-peach` | #ffe8d4 | AOV card |
-| Alert High | `semantic-error` | #e03131 | Critical alerts |
-| Alert Medium | `semantic-warning` | #dd5b00 | Warning alerts |
-| Alert Low | `semantic-success` | #1aae39 | Info/success |
-
----
-
-## 7. Responsive Behavior
-
-| Component | Desktop (≥1280px) | Tablet (768px) | Mobile (<480px) |
-|-----------|-------------------|----------------|-----------------|
-| Sidebar | Expanded (240px) | Collapsed (icons) | Hidden (hamburger) |
-| KPI Cards | 4 across | 2 across | 1 column stacked |
-| Charts | 2 per row | 1 per row | 1 per row (full width) |
-| Data Tables | Full columns | Scroll horizontal | Card view |
-| Filters | Inline bar | Collapsible panel | Bottom sheet |
+| KPI Card 4 | `card-tint-peach` | #ffe8d4 | Returns card |

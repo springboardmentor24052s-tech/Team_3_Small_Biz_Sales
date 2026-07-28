@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-This document analyzes the business-relevant attributes across all four datasets, identifying which attributes drive revenue, customer behavior, inventory decisions, and feed into the AI/ML modules. Each attribute is evaluated for its analytical significance and mapped to the MarketMind AI module that consumes it.
+This document analyzes the business-relevant attributes within the Online Retail Transaction Dataset. Since the dataset is a single flat table of invoice line items, this analysis focuses on identifying which raw attributes drive revenue, customer behavior, and inventory decisions, and how they map to the MarketMind AI modules.
 
 ---
 
@@ -10,45 +10,42 @@ This document analyzes the business-relevant attributes across all four datasets
 
 These attributes directly impact revenue calculation, profitability analysis, and financial reporting.
 
-| Attribute | Dataset | Type | Business Significance | Analytics Use |
-|-----------|---------|------|----------------------|---------------|
-| `unit_price` | products, sales | Decimal | Base selling price; determines revenue per unit | Pricing analysis, revenue calculation |
-| `unit_cost` | products, inventory | Decimal | Cost of goods sold (COGS); determines margin | Profitability analysis, margin reporting |
-| `margin_pct` | products | Decimal | Gross profit margin per product | Product profitability ranking |
-| `quantity` | sales | Integer | Units sold per transaction | Volume analysis, demand patterns |
-| `total_amount` | sales | Decimal | Transaction revenue (price × quantity) | Revenue aggregation, KPI dashboards |
-| `payment_method` | sales | String | Payment channel preference | Payment analytics, processing fee optimization |
+| Attribute | Type | Business Significance | Analytics Use |
+|-----------|------|----------------------|---------------|
+| `Price` | Decimal | Base selling price; determines revenue per unit | Pricing analysis, revenue calculation |
+| `Quantity` | Integer | Units sold per transaction (negative for returns) | Volume analysis, return rate tracking |
+| `Invoice` | String | Groups items into a single transaction/basket | Basket size analysis, order frequency |
 
 ### Revenue Analysis Framework
 
 ```mermaid
 graph TD
     subgraph "Revenue Metrics"
-        A["Unit Price × Quantity = Total Amount"]
-        B["Total Amount - (Unit Cost × Quantity) = Gross Profit"]
-        C["Gross Profit / Total Amount × 100 = Margin %"]
+        A["Price × Quantity = Line Item Revenue"]
+        B["SUM(Line Item Revenue) by Invoice = Order Value"]
+        C["SUM(Order Value) = Total Revenue"]
+        D["Quantity < 0 = Return/Refund Value"]
     end
 
     subgraph "Aggregation Dimensions"
-        D["By Category"]
-        E["By Store Location"]
-        F["By Time Period"]
-        G["By Customer Segment"]
-        H["By Payment Method"]
+        E["By Country"]
+        F["By Customer"]
+        G["By Time Period (Day/Month/Hour)"]
+        H["By Product (StockCode)"]
     end
 
+    A --> B
+    B --> C
     A --> D
-    A --> E
-    A --> F
-    A --> G
-    A --> H
+    C --> E
+    C --> F
+    C --> G
+    C --> H
 ```
 
 ### Key Insights
-
-- **Category-level margins**: Clothing has highest margins (45–70%), Groceries lowest (25–45%)
-- **Price distribution**: Wide range from $0.99 (Groceries) to $1,299.99 (Electronics) — requires log-scale analysis
-- **Discount impact**: ~10% of transactions include price reductions (5%–25% off), trackable by comparing `unit_price` in transactions vs. products
+- **No Cost Data**: The dataset does not include product cost (`unit_cost`), so profit margins cannot be directly calculated without external data or assumed baseline margins.
+- **Returns**: Returns are indicated by an `Invoice` starting with 'C' and a negative `Quantity`. These must be netted against gross sales for accurate net revenue.
 
 ---
 
@@ -56,25 +53,22 @@ graph TD
 
 Attributes that reveal purchasing patterns, customer lifecycle, and engagement levels.
 
-| Attribute | Dataset | Type | Business Significance | Analytics Use |
-|-----------|---------|------|----------------------|---------------|
-| `customer_id` | customers, sales | String | Customer identity linkage | Purchase history tracking |
-| `segment` | customers | String | Pre-assigned customer tier | Segment-based analytics |
-| `total_purchases` | customers | Integer | Lifetime purchase frequency | Customer value ranking |
-| `last_purchase_date` | customers | Date | Recency of engagement | Churn risk indicator |
-| `join_date` | customers | Date | Customer acquisition date | Cohort analysis, tenure |
-| `city` | customers | String | Geographic location | Regional performance analysis |
+| Attribute | Type | Business Significance | Analytics Use |
+|-----------|------|----------------------|---------------|
+| `Customer ID` | Numeric | Customer identity linkage | Purchase history tracking, RFM |
+| `Country` | String | Customer geographic location | Regional performance, shipping zones |
+| `InvoiceDate` | DateTime | Transaction timing | Recency, frequency, seasonal patterns |
 
 ### RFM (Recency, Frequency, Monetary) Framework
 
-The dataset supports full RFM analysis — the cornerstone of customer segmentation:
+The dataset supports full RFM analysis for the ~75% of records with a valid `Customer ID`:
 
 ```mermaid
 graph LR
     subgraph "RFM Components"
-        R["🕐 Recency<br/>Days since last_purchase_date"]
-        F["📊 Frequency<br/>total_purchases count"]
-        M["💰 Monetary<br/>SUM(total_amount) per customer"]
+        R["🕐 Recency<br/>Days since last InvoiceDate"]
+        F["📊 Frequency<br/>Count of unique Invoices"]
+        M["💰 Monetary<br/>SUM(Price × Quantity)"]
     end
 
     subgraph "Derived Scores"
@@ -103,213 +97,71 @@ graph LR
     RS --> S5
 ```
 
-### Customer Segment Distribution
-
-| Segment | Weight | Count (est.) | Characteristics |
-|---------|--------|-------------|-----------------|
-| Premium | 10% | ~50 | High frequency, high value, recent purchases |
-| Regular | 35% | ~175 | Consistent moderate purchases |
-| Occasional | 25% | ~125 | Infrequent, lower value purchases |
-| New | 20% | ~100 | Recently joined, limited history |
-| At-Risk | 10% | ~50 | Declining frequency, potential churn |
-
 ---
 
-## 4. Inventory Management Signals
+## 4. Inventory & Product Signals
 
-Attributes critical for stock management, reorder optimization, and supply chain decisions.
+Attributes critical for product performance, basket analysis, and assumed inventory management.
 
-| Attribute | Dataset | Type | Business Significance | Analytics Use |
-|-----------|---------|------|----------------------|---------------|
-| `current_stock` | inventory | Integer | Units available for sale | Stock level monitoring |
-| `reorder_level` | inventory | Integer | Minimum stock threshold | Automated reorder triggers |
-| `supplier` | inventory | String | Supply chain partner | Supplier performance analysis |
-| `warehouse_location` | inventory | String | Physical storage location | Warehouse utilization |
-| `last_restocked` | inventory | Date | Days since last restocking | Replenishment frequency |
-| `category` | inventory | String | Product grouping | Category-level stock analysis |
+| Attribute | Type | Business Significance | Analytics Use |
+|-----------|------|----------------------|---------------|
+| `StockCode` | String | Product identifier | Product sales tracking, recommendations |
+| `Description` | String | Product name | Natural language categorization |
+| `Quantity` | Integer | Units moved | Demand forecasting |
 
-### Stock Status Classification
+### Product Categorization Strategy
+Since there is no explicit `Category` column, categories must be derived from the `Description` field using NLP or keyword matching (e.g., "BAG", "MUG", "LIGHT", "HEART", "VINTAGE").
 
-```mermaid
-graph TD
-    A["Current Stock"] --> B{"Stock > Reorder Level × 2?"}
-    B -- Yes --> C["✅ OK<br/>Healthy stock level"]
-    B -- No --> D{"Stock > Reorder Level?"}
-    D -- Yes --> E["⚠️ Low<br/>Approaching reorder point"]
-    D -- No --> F{"Stock > 0?"}
-    F -- Yes --> G["🔴 Critical<br/>Below reorder level"]
-    F -- No --> H["⛔ Out of Stock<br/>Zero units available"]
-```
-
-### Inventory KPIs
-
+### Inventory KPIs (Derived)
 | KPI | Formula | Business Value |
 |-----|---------|---------------|
-| **Stock Turnover Rate** | Units Sold / Average Stock | How quickly inventory moves |
-| **Days of Supply** | Current Stock / Avg Daily Sales | How long stock will last |
-| **Stockout Rate** | Products at 0 / Total Products | Supply chain reliability |
-| **Reorder Alert Rate** | Products below threshold / Total | Urgency of replenishment |
-| **Carrying Cost** | Stock × Unit Cost | Inventory holding expense |
+| **Total Units Sold** | SUM(Quantity) where Quantity > 0 | Demand volume |
+| **Return Rate** | SUM(ABS(Quantity)) for returns / Total Units Sold | Product quality/satisfaction |
+| **Average Price** | AVG(Price) per StockCode | Price positioning |
 
 ---
 
 ## 5. Temporal Attributes
 
-Time-based attributes that enable trend analysis, seasonality detection, and forecasting.
+Time-based attributes derived from `InvoiceDate` that enable trend analysis and forecasting.
 
-| Attribute | Dataset | Type | Business Significance | Derived Features |
-|-----------|---------|------|----------------------|------------------|
-| `date` | sales | Date | Transaction timestamp | day_of_week, month, quarter, is_weekend |
-| `join_date` | customers | Date | Acquisition timestamp | customer_tenure_days, cohort_month |
-| `last_purchase_date` | customers | Date | Last engagement date | days_since_last_purchase, is_active |
-| `last_restocked` | inventory | Date | Supply chain event | days_since_restock |
+| Feature | Extraction | Business Significance |
+|---------|------------|----------------------|
+| `Month/Year` | From InvoiceDate | Monthly revenue trends, year-over-year growth |
+| `Day of Week` | From InvoiceDate | Identifying busiest shopping days |
+| `Hour of Day` | From InvoiceDate | Optimizing server load, targeted marketing times |
 
-### Seasonal Patterns
-
-```mermaid
-xychart-beta
-    title "Monthly Sales Multiplier (Expected Pattern)"
-    x-axis ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    y-axis "Sales Multiplier" 0.5 --> 1.6
-    bar [0.70, 0.65, 0.80, 0.85, 0.90, 1.00, 1.05, 1.00, 0.90, 0.95, 1.30, 1.50]
-```
-
-| Pattern | Description | Impact |
-|---------|-------------|--------|
-| **Holiday Surge** | Nov–Dec sales spike (1.3×–1.5× multiplier) | Stock up inventory, prepare seasonal promotions |
-| **Post-Holiday Dip** | Jan–Feb sales trough (0.65×–0.7× multiplier) | Reduce inventory orders, clearance sales |
-| **Weekend Effect** | Fri-Sat sales 15-30% higher than Mon-Tue | Staff scheduling, promotion timing |
-| **Quarterly Trends** | Q4 strongest, Q1 weakest | Budget planning, revenue forecasting |
+### Expected Seasonal Patterns
+The dataset spans a full year, allowing for seasonality detection:
+- **Holiday Surge**: High volume expected in Nov–Dec.
+- **Time of Day**: E-commerce typically sees peaks during lunch hours and evenings.
 
 ---
 
-## 6. Segmentation-Relevant Features
+## 6. Segmentation & ML Feature Mapping
 
-Attributes suitable for clustering, grouping, and classification models.
+This table maps the derived features to the AI/ML module that consumes them.
 
-| Feature | Source | ML Module | Role |
-|---------|--------|-----------|------|
-| `purchase_frequency` | Derived from sales | Segmentation, Churn | Behavioral clustering |
-| `avg_order_value` | Derived from sales | Segmentation | Value-based grouping |
-| `category_preference` | Derived from sales | Recommendations | Product affinity |
-| `payment_method` | sales | Segmentation | Behavioral pattern |
-| `store_location` | sales | Segmentation | Geographic clustering |
-| `city` | customers | Segmentation | Regional analysis |
-| `recency_days` | Derived from customers | Churn Prediction | Activity indicator |
-| `customer_tenure` | Derived from customers | Churn, Segmentation | Lifecycle stage |
-
-### Feature Categories for ML
-
-```mermaid
-mindmap
-  root((ML Features))
-    Demographic
-      City
-      Customer Tenure
-      Segment
-    Behavioral
-      Purchase Frequency
-      Avg Order Value
-      Preferred Category
-      Payment Method
-      Store Preference
-    Temporal
-      Days Since Last Purchase
-      Purchase Regularity
-      Seasonal Patterns
-    Financial
-      Lifetime Value
-      Avg Transaction Size
-      Total Revenue
-      Margin Contribution
-```
+| Derived Feature | Source Attribute(s) | ML Module | Role |
+|-----------------|---------------------|-----------|------|
+| `Recency_Days` | `InvoiceDate`, `Customer ID` | Segmentation, Churn | Behavioral clustering |
+| `Order_Frequency`| `Invoice`, `Customer ID` | Segmentation, Churn | Behavioral clustering |
+| `Customer_LTV` | `Price`, `Quantity`, `Customer ID` | Segmentation | Value-based grouping |
+| `Country` | `Country` | Segmentation | Geographic clustering |
+| `Co-purchased_Items`| `StockCode`, `Invoice` | Recommendations | Market Basket Analysis (Apriori) |
+| `Daily_Sales_Vol` | `InvoiceDate`, `Quantity` | Forecasting | Time-series prediction |
+| `Return_Ratio` | `Quantity` (<0 vs >0) | Anomaly, Quality | Flagging problematic items |
 
 ---
 
 ## 7. Anomaly Detection Candidates
 
-Attributes and patterns where anomalies may indicate fraud, errors, or unusual business events.
+Patterns where anomalies may indicate fraud, errors, or unusual business events.
 
-| Anomaly Type | Detection Attributes | Method | Severity |
-|-------------|---------------------|--------|----------|
-| **Unusually large transactions** | total_amount, quantity | Z-score, IQR | High |
-| **Suspicious return patterns** | negative quantities | Rule-based | Medium |
-| **Unusual purchase times** | date (time patterns) | Statistical | Low |
-| **Stock discrepancies** | current_stock vs. sales volume | Delta analysis | High |
-| **Sudden demand spikes** | quantity per product per day | Isolation Forest | Medium |
-| **Price manipulation** | unit_price vs. catalog price | Comparison | Critical |
-| **Duplicate transactions** | All transaction fields | Exact matching | Medium |
-| **Revenue outliers** | total_amount per category | IQR by category | Medium |
-
-### Anomaly Detection Strategy
-
-```mermaid
-flowchart LR
-    subgraph "Statistical Methods"
-        A["Z-Score > 3σ"]
-        B["IQR: Q1-1.5×IQR to Q3+1.5×IQR"]
-    end
-
-    subgraph "ML Methods"
-        C["Isolation Forest"]
-        D["One-Class SVM"]
-    end
-
-    subgraph "Rule-Based"
-        E["Negative quantities"]
-        F["Price > 2× catalog"]
-        G["Stock < 0"]
-    end
-
-    A --> H["Combined Anomaly Score"]
-    B --> H
-    C --> H
-    D --> H
-    E --> H
-    F --> H
-    G --> H
-
-    H --> I{"Score > Threshold?"}
-    I -- Yes --> J["🚨 Alert Generated"]
-    I -- No --> K["✅ Normal"]
-```
-
----
-
-## 8. ML Feature → Module Mapping
-
-This table maps each business attribute to the AI/ML module that consumes it.
-
-| Attribute | Forecasting | Segmentation | Churn | Recommendations | Anomaly |
-|-----------|:-----------:|:------------:|:-----:|:---------------:|:-------:|
-| `date` / temporal | ✅ Primary | ○ | ✅ Primary | ○ | ✅ |
-| `total_amount` | ✅ Primary | ✅ (Monetary) | ○ | ○ | ✅ Primary |
-| `quantity` | ✅ | ○ | ○ | ✅ | ✅ Primary |
-| `category` | ✅ | ✅ | ○ | ✅ Primary | ✅ |
-| `product_id` | ✅ | ○ | ○ | ✅ Primary | ✅ |
-| `customer_id` | ○ | ✅ Primary | ✅ Primary | ✅ Primary | ○ |
-| `purchase_frequency` | ○ | ✅ (Frequency) | ✅ Primary | ✅ | ○ |
-| `recency_days` | ○ | ✅ (Recency) | ✅ Primary | ✅ | ○ |
-| `current_stock` | ✅ | ○ | ○ | ○ | ✅ Primary |
-| `unit_price` | ✅ | ✅ | ○ | ✅ | ✅ |
-| `payment_method` | ○ | ✅ | ○ | ○ | ✅ |
-| `store_location` | ✅ | ✅ | ○ | ○ | ✅ |
-
-**Legend**: ✅ = Used by this module | ✅ Primary = Key input feature | ○ = Not directly used
-
----
-
-## 9. Data Enrichment Opportunities
-
-Beyond the raw attributes, several derived features can enhance analytics:
-
-| Derived Feature | Source Attributes | Calculation | Module |
-|----------------|------------------|-------------|--------|
-| `customer_lifetime_value` | total_amount per customer | SUM(total_amount) WHERE customer_id = X | Segmentation, Churn |
-| `avg_order_value` | total_amount, transaction count | AVG(total_amount) per customer | Segmentation |
-| `purchase_regularity` | transaction dates | STDDEV of days between purchases | Churn |
-| `category_diversity` | category per customer | COUNT(DISTINCT category) | Segmentation |
-| `basket_size` | quantity per transaction | AVG(quantity) per customer | Recommendations |
-| `stock_days_remaining` | current_stock, daily sales | stock / avg_daily_sales | Inventory |
-| `price_sensitivity` | unit_price vs. discount rate | Correlation of discount to purchase | Recommendations |
-| `seasonal_preference` | date, category | Mode(category) by quarter | Forecasting |
+| Anomaly Type | Detection Attributes | Severity |
+|-------------|---------------------|----------|
+| **Unusually large wholesale orders** | `Quantity`, `Price` | High |
+| **High return rates** | `Quantity` (negative) | Medium |
+| **Zero/Negative Prices** | `Price` | Critical (Data Error/Adjustment) |
+| **Non-Product Codes** | `StockCode` (e.g. 'POST', 'M') | Medium (Requires filtering) |
+| **Sudden demand spikes** | `Quantity` per `StockCode` over time | Medium |
