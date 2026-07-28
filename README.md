@@ -32,5 +32,4 @@ This module is part of the Team 3 Small Business Sales project. It focuses on bu
 - Model evaluation completed
 - Sales prediction tested successfully
 
-## Author
-Rakshana
+
