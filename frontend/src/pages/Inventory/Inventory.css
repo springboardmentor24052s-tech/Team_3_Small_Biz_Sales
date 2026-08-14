@@ -1,0 +1,97 @@
+/* ===== Products (Inventory) Page Styles ===== */
+
+/* Return Alerts */
+.return-alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.return-alert-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  transition: all var(--transition-fast);
+}
+
+.return-alert-item:hover {
+  background: var(--gray-50);
+}
+
+.return-alert-item.critical {
+  border-left: 4px solid var(--danger-500);
+  background: var(--danger-50);
+}
+
+.return-alert-item.warning {
+  border-left: 4px solid var(--warning-500);
+  background: var(--warning-50);
+}
+
+.return-alert-indicator {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.return-alert-content {
+  flex: 1;
+}
+
+.return-alert-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.return-alert-code {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  background: var(--gray-100);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.return-alert-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.return-alert-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.return-rate-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--danger-600);
+}
+
+.return-rate-avg {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.return-units {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* SKU Code */
+.sku-code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  background: var(--gray-100);
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}

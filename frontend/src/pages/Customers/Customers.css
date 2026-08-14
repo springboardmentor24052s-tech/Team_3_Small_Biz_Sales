@@ -1,0 +1,20 @@
+/* ===== Customers Page Styles ===== */
+
+/* Chart tooltip is shared from Dashboard.css */
+.chart-tooltip {
+  background: var(--gray-900);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.chart-tooltip .tooltip-label {
+  color: var(--gray-400);
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+
+.chart-tooltip .tooltip-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+}

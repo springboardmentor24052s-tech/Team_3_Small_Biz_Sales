@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+venv/
+backend/venv/
+env/
+backend/env/
+
+# Build files
+dist/
+frontend/dist/
+dist-ssr/
+*.local
+
+# Python cache & env
+__pycache__/
+backend/**/__pycache__/
+*.pyc
+*.pyo
+.env
+backend/.env
+*.db
+*.sqlite3
+
+# Editor & OS files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Project specific doc files
+AI_Small Business Sales Intelligence Platform1.docx
+flow.jpeg
+docs

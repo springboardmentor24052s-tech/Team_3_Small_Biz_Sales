@@ -1,0 +1,153 @@
+/* ===== Dashboard / Overview Page Styles ===== */
+
+/* Chart Tabs */
+.chart-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--gray-100);
+  padding: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.chart-tab {
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.chart-tab:hover { color: var(--text-primary); }
+
+.chart-tab.active {
+  background: var(--surface-card);
+  color: var(--primary-600);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+}
+
+/* Custom Chart Tooltip */
+.chart-tooltip {
+  background: var(--gray-900);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.chart-tooltip .tooltip-label {
+  color: var(--gray-400);
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+
+.chart-tooltip .tooltip-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* Alert Feed */
+.alert-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  transition: all var(--transition-fast);
+}
+
+.alert-item:hover {
+  background: var(--gray-50);
+}
+
+.alert-item.critical { border-left: 3px solid var(--danger-500); }
+.alert-item.high { border-left: 3px solid var(--danger-400); }
+.alert-item.warning { border-left: 3px solid var(--warning-500); }
+.alert-item.info { border-left: 3px solid var(--info-500); }
+
+.alert-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alert-icon-wrap.danger { background: var(--danger-50); color: var(--danger-600); }
+.alert-icon-wrap.warning { background: var(--warning-50); color: var(--warning-600); }
+.alert-icon-wrap.info { background: var(--info-50); color: var(--info-500); }
+
+.alert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-message {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+  font-weight: 450;
+}
+
+.alert-time {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+  display: block;
+}
+
+/* Invoice ID styling */
+.invoice-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: var(--primary-600);
+  font-size: 0.88rem;
+}
+
+.invoice-id.return {
+  color: var(--danger-600);
+}
+
+/* Return row */
+.row-return td {
+  background: var(--danger-50) !important;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+  background: var(--gray-100);
+  color: var(--primary-600);
+}
+
+.action-btn.danger:hover {
+  background: var(--danger-50);
+  color: var(--danger-600);
+}
