@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MarketMind AI - AI-Powered Sales Intelligence Platform Login">
+    <title>MarketMind AI — Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Decorative dots (sticky-note style from Notion hero) */
+        .hero-dots {
+            position: absolute;
+            z-index: 0;
+        }
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        .dot-1 { width: 12px; height: 12px; background: #ff64c8; top: 15%; left: 10%; animation: float 6s ease-in-out infinite; }
+        .dot-2 { width: 8px; height: 8px; background: #f9e79f; top: 25%; right: 15%; animation: float 8s ease-in-out infinite 1s; }
+        .dot-3 { width: 16px; height: 16px; background: #5645d4; bottom: 30%; left: 20%; animation: float 7s ease-in-out infinite 0.5s; }
+        .dot-4 { width: 10px; height: 10px; background: #2a9d99; bottom: 20%; right: 25%; animation: float 5s ease-in-out infinite 2s; }
+        .dot-5 { width: 6px; height: 6px; background: #dd5b00; top: 40%; left: 5%; animation: float 9s ease-in-out infinite 1.5s; }
+        .dot-6 { width: 14px; height: 14px; background: #1aae39; top: 60%; right: 10%; animation: float 7s ease-in-out infinite 3s; }
+        .dot-7 { width: 10px; height: 10px; background: #ff64c8; bottom: 40%; left: 30%; animation: float 6s ease-in-out infinite 0.8s; }
+        .dot-8 { width: 8px; height: 8px; background: #7b3ff2; top: 70%; left: 15%; animation: float 8s ease-in-out infinite 2.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.1); }
+        }
+
+        /* Mesh wire decoration */
+        .mesh-wire {
+            position: absolute;
+            border: 1px solid rgba(86, 69, 212, 0.08);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .mesh-1 { width: 300px; height: 300px; top: -50px; right: -80px; }
+        .mesh-2 { width: 200px; height: 200px; bottom: -40px; left: -60px; }
+        .mesh-3 { width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+        .login-header-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--brand-purple));
+            border-radius: var(--rounded-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--sp-xl);
+            font-size: 28px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+        }
+
+        .login-card .subtitle {
+            text-align: center;
+        }
+
+        .social-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: var(--rounded-md);
+            border: 1px solid var(--hairline-strong);
+            background: var(--canvas);
+            color: var(--charcoal);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+
+        .social-btn:hover {
+            background-color: var(--surface);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: var(--sp-xl);
+            font-size: 14px;
+            color: var(--steel);
+        }
+
+        .signup-link a {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .features-strip {
+            display: flex;
+            justify-content: center;
+            gap: var(--sp-xxl);
+            margin-top: var(--sp-section-sm);
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--on-dark-muted);
+        }
+
+        .feature-chip .chip-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--rounded-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-band">
+        <!-- Decorative Elements -->
+        <div class="hero-dots">
+            <div class="dot dot-1"></div>
+            <div class="dot dot-2"></div>
+            <div class="dot dot-3"></div>
+            <div class="dot dot-4"></div>
+            <div class="dot dot-5"></div>
+            <div class="dot dot-6"></div>
+            <div class="dot dot-7"></div>
+            <div class="dot dot-8"></div>
+        </div>
+        <div class="mesh-wire mesh-1"></div>
+        <div class="mesh-wire mesh-2"></div>
+        <div class="mesh-wire mesh-3"></div>
+
+        <div class="hero-content">
+            <div class="login-card">
+                <div class="login-header-icon">🧠</div>
+                <h2>Welcome to MarketMind</h2>
+                <p class="subtitle">AI-Powered Sales Intelligence Platform</p>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input class="input" type="email" id="email" placeholder="you@company.com" autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input class="input" type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+                    </div>
+
+                    <div class="form-footer">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="remember"> Remember me
+                        </label>
+                        <a href="#" class="body-sm-medium" style="color: var(--primary);">Forgot password?</a>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-lg" style="width: 100%;" onclick="window.location.href='dashboard.html'">
+                        Sign In
+                    </button>
+
+                    <div class="divider">or continue with</div>
+
+                    <button type="button" class="social-btn">
+                        <span>🔐</span> Sign in with Google
+                    </button>
+
+                    <div class="signup-link">
+                        Don't have an account? <a href="#">Request Access</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Feature Strip -->
+            <div class="features-strip">
+                <div class="feature-chip">
+                    <div class="chip-icon" style="background: rgba(86, 69, 212, 0.2);">📊</div>
+                    Analytics
+                </div>
+                <div class="feature-chip">
+                    <div class="chip-icon" style="background: rgba(42, 157, 153, 0.2);">🤖</div>
+                    AI Insights
+                </div>
+                <div class="feature-chip">
+                    <div class="chip-icon" style="background: rgba(221, 91, 0, 0.2);">🔮</div>
+                    Forecasting
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

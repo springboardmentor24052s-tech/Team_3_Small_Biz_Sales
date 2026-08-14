@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MarketMind AI - Customer Segmentation, RFM Analysis, and Behavioral Analytics">
+    <title>MarketMind AI — Customers</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .segment-card {
+            background: var(--canvas);
+            border: 1px solid var(--hairline);
+            border-radius: var(--rounded-lg);
+            padding: var(--sp-xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+            transition: box-shadow 200ms ease, transform 200ms ease;
+        }
+        .segment-card:hover {
+            box-shadow: var(--shadow-card);
+            transform: translateY(-2px);
+        }
+        .segment-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--rounded-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .segment-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .segment-count {
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .segment-pct {
+            font-size: 13px;
+            color: var(--steel);
+        }
+
+        .rfm-cell {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--rounded-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .customer-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--rounded-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- ═══ Sidebar ═══ -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">M</div>
+                <div class="sidebar-brand">Market<span>Mind</span></div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Main</div>
+                    <a href="dashboard.html" class="sidebar-item"><span class="icon">📊</span><span>Overview</span></a>
+                    <a href="sales.html" class="sidebar-item"><span class="icon">💰</span><span>Sales</span></a>
+                    <a href="inventory.html" class="sidebar-item"><span class="icon">📦</span><span>Inventory</span></a>
+                    <a href="customers.html" class="sidebar-item active"><span class="icon">👥</span><span>Customers</span></a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">AI & Intelligence</div>
+                    <a href="#" class="sidebar-item"><span class="icon">🔮</span><span>Forecasting</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">⚡</span><span>Churn Prediction</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">💡</span><span>Recommendations</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">🚨</span><span>Anomalies</span></a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Management</div>
+                    <a href="#" class="sidebar-item"><span class="icon">🧾</span><span>Invoices</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">📁</span><span>Upload Data</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">📋</span><span>Reports</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-avatar">JD</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">John Doe</div>
+                        <div class="sidebar-user-role">Business Owner</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Customer Intelligence</h1>
+                    <p class="page-subtitle">Analyze customer segments, behavior, and engagement patterns.</p>
+                </div>
+                <div class="page-actions">
+                    <select class="filter-select">
+                        <option>All Segments</option>
+                        <option>Premium</option>
+                        <option>Regular</option>
+                        <option>Occasional</option>
+                        <option>New</option>
+                        <option>At-Risk</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Cities</option>
+                        <option>New York</option>
+                        <option>Los Angeles</option>
+                        <option>Chicago</option>
+                    </select>
+                    <button class="btn btn-secondary btn-sm">Export</button>
+                </div>
+            </div>
+
+            <!-- Customer KPIs -->
+            <div class="grid grid-4" style="margin-bottom: var(--sp-xl);">
+                <div class="kpi-card card-tint-lavender" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">👤 Total Customers</div>
+                    <div class="kpi-value">500</div>
+                    <div class="kpi-change positive">↑ 15.2% growth</div>
+                </div>
+                <div class="kpi-card card-tint-yellow" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">🏆 Premium Customers</div>
+                    <div class="kpi-value">50</div>
+                    <div class="caption" style="color: var(--steel);">10% of total base</div>
+                </div>
+                <div class="kpi-card" style="background: #fde8e8; border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">⚠️ At-Risk Customers</div>
+                    <div class="kpi-value" style="color: var(--error);">50</div>
+                    <div class="caption" style="color: var(--steel);">Potential churn</div>
+                </div>
+                <div class="kpi-card card-tint-mint" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">💰 Avg Lifetime Value</div>
+                    <div class="kpi-value">$569</div>
+                    <div class="kpi-change positive">↑ 8.4%</div>
+                </div>
+            </div>
+
+            <!-- Segment Cards -->
+            <div class="grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: var(--sp-xl);">
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: var(--card-tint-yellow-bold);">🏆</div>
+                    <div class="segment-name">Premium</div>
+                    <div class="segment-count" style="color: var(--brand-orange);">50</div>
+                    <div class="segment-pct">10% • Avg LTV: $1,420</div>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: var(--card-tint-mint);">⭐</div>
+                    <div class="segment-name">Regular</div>
+                    <div class="segment-count" style="color: var(--brand-green);">175</div>
+                    <div class="segment-pct">35% • Avg LTV: $680</div>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: var(--card-tint-sky);">💫</div>
+                    <div class="segment-name">Occasional</div>
+                    <div class="segment-count" style="color: var(--link-blue);">125</div>
+                    <div class="segment-pct">25% • Avg LTV: $320</div>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: var(--card-tint-lavender);">🆕</div>
+                    <div class="segment-name">New</div>
+                    <div class="segment-count" style="color: var(--primary);">100</div>
+                    <div class="segment-pct">20% • Avg LTV: $120</div>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: #fde8e8;">⚠️</div>
+                    <div class="segment-name">At-Risk</div>
+                    <div class="segment-count" style="color: var(--error);">50</div>
+                    <div class="segment-pct">10% • Avg LTV: $410</div>
+                </div>
+            </div>
+
+            <!-- Segment Distribution + RFM Scatter -->
+            <div class="grid grid-6-6" style="margin-bottom: var(--sp-xl);">
+                <!-- Segment Distribution -->
+                <div class="chart-placeholder" style="min-height: 300px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">👥 Segment Distribution</h4>
+                    </div>
+                    <div class="chart-body" style="flex-direction: column; gap: 20px; background: none;">
+                        <div class="donut-placeholder" style="background: conic-gradient(
+                            var(--brand-orange) 0deg 36deg,
+                            var(--brand-green) 36deg 162deg,
+                            var(--link-blue) 162deg 252deg,
+                            var(--primary) 252deg 324deg,
+                            var(--error) 324deg 360deg
+                        );"></div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--brand-orange); border-radius: 2px;"></span> Premium 10%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--brand-green); border-radius: 2px;"></span> Regular 35%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--link-blue); border-radius: 2px;"></span> Occasional 25%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--primary); border-radius: 2px;"></span> New 20%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--error); border-radius: 2px;"></span> At-Risk 10%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RFM Scatter Visualization -->
+                <div class="chart-placeholder" style="min-height: 300px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">📊 RFM Analysis Overview</h4>
+                    </div>
+                    <div style="padding: var(--sp-md); flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                            <span class="micro-uppercase" style="color: var(--stone);">RFM Scores by Segment</span>
+                        </div>
+                        <table class="data-table" style="font-size: 13px;">
+                            <thead>
+                                <tr>
+                                    <th>Segment</th>
+                                    <th style="text-align: center;">Recency</th>
+                                    <th style="text-align: center;">Frequency</th>
+                                    <th style="text-align: center;">Monetary</th>
+                                    <th style="text-align: center;">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>🏆 Premium</td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-green); margin: 0 auto;">5</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-green); margin: 0 auto;">5</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-green); margin: 0 auto;">5</div></td>
+                                    <td style="text-align: center;"><span class="caption-bold" style="color: var(--brand-green);">15.0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>⭐ Regular</td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-teal); margin: 0 auto;">4</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-teal); margin: 0 auto;">3</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-teal); margin: 0 auto;">3</div></td>
+                                    <td style="text-align: center;"><span class="caption-bold" style="color: var(--brand-teal);">10.0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>💫 Occasional</td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--link-blue); margin: 0 auto;">3</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-orange); margin: 0 auto;">2</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--link-blue); margin: 0 auto;">2</div></td>
+                                    <td style="text-align: center;"><span class="caption-bold" style="color: var(--link-blue);">7.0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>🆕 New</td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--primary); margin: 0 auto;">5</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-orange); margin: 0 auto;">1</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-orange); margin: 0 auto;">1</div></td>
+                                    <td style="text-align: center;"><span class="caption-bold" style="color: var(--primary);">7.0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>⚠️ At-Risk</td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--error); margin: 0 auto;">1</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-orange); margin: 0 auto;">2</div></td>
+                                    <td style="text-align: center;"><div class="rfm-cell" style="background: var(--brand-orange); margin: 0 auto;">3</div></td>
+                                    <td style="text-align: center;"><span class="caption-bold" style="color: var(--error);">6.0</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Table -->
+            <div class="card" style="padding: var(--sp-xl);">
+                <div class="chart-header" style="margin-bottom: var(--sp-md);">
+                    <h4 class="chart-title">📋 Customer Directory</h4>
+                    <input type="text" class="search-pill" placeholder="Search customers..." style="width: 260px;">
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Segment</th>
+                            <th>Purchases</th>
+                            <th>Lifetime Value</th>
+                            <th>Avg Order</th>
+                            <th>Last Active</th>
+                            <th>City</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="customer-avatar" style="background: linear-gradient(135deg, var(--brand-orange), var(--brand-pink));">SJ</div>
+                                    <div>
+                                        <div class="body-sm-medium">Sarah Johnson</div>
+                                        <div class="caption" style="color: var(--steel);">sarah.johnson@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-yellow-bold); color: var(--brand-orange);">Premium</span></td>
+                            <td class="body-sm-medium">48</td>
+                            <td class="body-sm-medium">$2,340</td>
+                            <td>$48.75</td>
+                            <td>Dec 31, 2025</td>
+                            <td>New York</td>
+                            <td><span class="badge badge-green" style="font-size: 11px;">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="customer-avatar" style="background: linear-gradient(135deg, var(--primary), var(--brand-teal));">MC</div>
+                                    <div>
+                                        <div class="body-sm-medium">Mike Chen</div>
+                                        <div class="caption" style="color: var(--steel);">mike.chen@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-tag badge-tag-green">Regular</span></td>
+                            <td class="body-sm-medium">22</td>
+                            <td class="body-sm-medium">$890</td>
+                            <td>$40.45</td>
+                            <td>Dec 28, 2025</td>
+                            <td>Los Angeles</td>
+                            <td><span class="badge badge-green" style="font-size: 11px;">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="customer-avatar" style="background: linear-gradient(135deg, var(--brand-teal), var(--brand-green));">ED</div>
+                                    <div>
+                                        <div class="body-sm-medium">Emily Davis</div>
+                                        <div class="caption" style="color: var(--steel);">emily.davis@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-tag badge-tag-purple">Occasional</span></td>
+                            <td class="body-sm-medium">8</td>
+                            <td class="body-sm-medium">$245</td>
+                            <td>$30.63</td>
+                            <td>Dec 20, 2025</td>
+                            <td>Chicago</td>
+                            <td><span class="badge badge-green" style="font-size: 11px;">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="customer-avatar" style="background: linear-gradient(135deg, var(--brand-purple), var(--primary));">RW</div>
+                                    <div>
+                                        <div class="body-sm-medium">Robert Wilson</div>
+                                        <div class="caption" style="color: var(--steel);">robert.wilson@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-lavender); color: var(--primary);">New</span></td>
+                            <td class="body-sm-medium">3</td>
+                            <td class="body-sm-medium">$120</td>
+                            <td>$40.00</td>
+                            <td>Dec 15, 2025</td>
+                            <td>Houston</td>
+                            <td><span class="badge badge-green" style="font-size: 11px;">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="customer-avatar" style="background: linear-gradient(135deg, var(--error), var(--brand-orange));">AL</div>
+                                    <div>
+                                        <div class="body-sm-medium">Amanda Lee</div>
+                                        <div class="caption" style="color: var(--steel);">amanda.lee@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-tag" style="background: #fde8e8; color: var(--error);">At-Risk</span></td>
+                            <td class="body-sm-medium">15</td>
+                            <td class="body-sm-medium">$620</td>
+                            <td>$41.33</td>
+                            <td>Oct 5, 2025</td>
+                            <td>Phoenix</td>
+                            <td><span class="badge badge-error" style="font-size: 11px;">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--sp-lg);">
+                    <span class="body-sm" style="color: var(--steel);">Showing 1–5 of 500 customers</span>
+                    <div style="display: flex; gap: 4px;">
+                        <button class="btn btn-ghost btn-sm" disabled>← Prev</button>
+                        <button class="btn btn-sm" style="background: var(--primary); color: white; border-radius: var(--rounded-md);">1</button>
+                        <button class="btn btn-ghost btn-sm">2</button>
+                        <button class="btn btn-ghost btn-sm">3</button>
+                        <button class="btn btn-ghost btn-sm">...</button>
+                        <button class="btn btn-ghost btn-sm">100</button>
+                        <button class="btn btn-ghost btn-sm">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
