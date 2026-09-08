@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MarketMind AI - Sales Analytics and Transaction Management">
+    <title>MarketMind AI — Sales</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- ═══ Sidebar (same as dashboard) ═══ -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">M</div>
+                <div class="sidebar-brand">Market<span>Mind</span></div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Main</div>
+                    <a href="dashboard.html" class="sidebar-item"><span class="icon">📊</span><span>Overview</span></a>
+                    <a href="sales.html" class="sidebar-item active"><span class="icon">💰</span><span>Sales</span></a>
+                    <a href="inventory.html" class="sidebar-item"><span class="icon">📦</span><span>Inventory</span></a>
+                    <a href="customers.html" class="sidebar-item"><span class="icon">👥</span><span>Customers</span></a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">AI & Intelligence</div>
+                    <a href="#" class="sidebar-item"><span class="icon">🔮</span><span>Forecasting</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">⚡</span><span>Churn Prediction</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">💡</span><span>Recommendations</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">🚨</span><span>Anomalies</span></a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Management</div>
+                    <a href="#" class="sidebar-item"><span class="icon">🧾</span><span>Invoices</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">📁</span><span>Upload Data</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">📋</span><span>Reports</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-avatar">JD</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">John Doe</div>
+                        <div class="sidebar-user-role">Business Owner</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Sales Dashboard</h1>
+                    <p class="page-subtitle">Track revenue, analyze trends, and manage transactions.</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary btn-sm">+ New Transaction</button>
+                    <button class="btn btn-secondary btn-sm">Export CSV</button>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <input type="date" class="input" style="width: 150px; height: 36px; font-size: 13px;" value="2025-01-01">
+                <span style="color: var(--steel); font-size: 13px;">to</span>
+                <input type="date" class="input" style="width: 150px; height: 36px; font-size: 13px;" value="2025-12-31">
+                <select class="filter-select">
+                    <option>All Categories</option>
+                    <option>Electronics</option>
+                    <option>Clothing</option>
+                    <option>Groceries</option>
+                    <option>Home & Garden</option>
+                    <option>Sports</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Stores</option>
+                    <option>Downtown Store</option>
+                    <option>Mall Central</option>
+                    <option>Suburban Plaza</option>
+                    <option>Harbor Point</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Payments</option>
+                    <option>Credit Card</option>
+                    <option>Debit Card</option>
+                    <option>Cash</option>
+                    <option>Digital Wallet</option>
+                </select>
+            </div>
+
+            <!-- Sales KPI Cards -->
+            <div class="grid grid-4" style="margin-bottom: var(--sp-xl);">
+                <div class="kpi-card card-tint-mint" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">💰 Total Revenue</div>
+                    <div class="kpi-value">$284,520</div>
+                    <div class="kpi-change positive">↑ 12.5%</div>
+                </div>
+                <div class="kpi-card card-tint-sky" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">📊 Avg Transaction</div>
+                    <div class="kpi-value">$56.79</div>
+                    <div class="kpi-change positive">↑ 3.8%</div>
+                </div>
+                <div class="kpi-card card-tint-lavender" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">📈 Growth Rate</div>
+                    <div class="kpi-value">+12.5%</div>
+                    <div class="kpi-change positive">↑ vs Q3</div>
+                </div>
+                <div class="kpi-card card-tint-peach" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">🏷️ Avg Margin</div>
+                    <div class="kpi-value">42.3%</div>
+                    <div class="kpi-change negative">↓ 1.2%</div>
+                </div>
+            </div>
+
+            <!-- Sales Trend Chart (Full Width) -->
+            <div class="chart-placeholder" style="margin-bottom: var(--sp-xl); min-height: 320px;">
+                <div class="chart-header">
+                    <h4 class="chart-title">📈 Daily Sales Trend with Forecast</h4>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                            <span style="width: 16px; height: 3px; background: var(--primary); border-radius: 2px;"></span> Actual
+                        </span>
+                        <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                            <span style="width: 16px; height: 3px; background: var(--brand-purple); border-radius: 2px; border: 1px dashed var(--brand-purple);"></span> Forecast
+                        </span>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <svg viewBox="0 0 800 200" style="width: 100%; height: 200px;">
+                        <!-- Grid lines -->
+                        <line x1="0" y1="50" x2="800" y2="50" stroke="#ede9e4" stroke-width="1"/>
+                        <line x1="0" y1="100" x2="800" y2="100" stroke="#ede9e4" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="800" y2="150" stroke="#ede9e4" stroke-width="1"/>
+                        <!-- Actual line -->
+                        <polyline points="0,160 60,145 120,130 180,125 240,110 300,95 360,88 420,92 480,100 540,90 600,65 660,40"
+                                  fill="none" stroke="#5645d4" stroke-width="2.5" stroke-linejoin="round"/>
+                        <!-- Forecast line (dashed) -->
+                        <polyline points="660,40 720,30 780,25 800,22"
+                                  fill="none" stroke="#7b3ff2" stroke-width="2" stroke-dasharray="6,4" stroke-linejoin="round"/>
+                        <!-- Gradient fill -->
+                        <defs>
+                            <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#5645d4" stop-opacity="0.15"/>
+                                <stop offset="100%" stop-color="#5645d4" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <polygon points="0,160 60,145 120,130 180,125 240,110 300,95 360,88 420,92 480,100 540,90 600,65 660,40 660,200 0,200"
+                                 fill="url(#grad)"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Revenue by Store + Payment Methods -->
+            <div class="grid grid-6-6" style="margin-bottom: var(--sp-xl);">
+                <div class="chart-placeholder" style="min-height: 260px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">📊 Revenue by Store</h4>
+                    </div>
+                    <div style="padding: var(--sp-md); flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Downtown Store</span>
+                                <span class="caption-bold">$68,200</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 90%; background: var(--primary);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Mall Central</span>
+                                <span class="caption-bold">$55,100</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 72%; background: var(--brand-teal);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Suburban Plaza</span>
+                                <span class="caption-bold">$48,800</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 64%; background: var(--brand-orange);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Harbor Point</span>
+                                <span class="caption-bold">$42,500</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 56%; background: var(--brand-pink);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Other Locations</span>
+                                <span class="caption-bold">$69,920</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 92%; background: var(--brand-green);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-placeholder" style="min-height: 260px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">💳 Payment Methods</h4>
+                    </div>
+                    <div class="chart-body" style="flex-direction: column; gap: 16px; background: none;">
+                        <div class="donut-placeholder" style="background: conic-gradient(var(--primary) 0deg 126deg, var(--brand-teal) 126deg 216deg, var(--brand-orange) 216deg 270deg, var(--brand-pink) 270deg 342deg, var(--brand-green) 342deg 360deg);"></div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--primary); border-radius: 2px;"></span> Credit 35%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--brand-teal); border-radius: 2px;"></span> Debit 25%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--brand-orange); border-radius: 2px;"></span> Cash 15%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--brand-pink); border-radius: 2px;"></span> Wallet 20%</span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: var(--brand-green); border-radius: 2px;"></span> Bank 5%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions Table -->
+            <div class="card" style="padding: var(--sp-xl);">
+                <div class="chart-header" style="margin-bottom: var(--sp-md);">
+                    <h4 class="chart-title">📋 All Transactions</h4>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" class="search-pill" placeholder="Search transactions..." style="width: 240px;">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Store</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005010</span></td>
+                            <td>2025-12-31</td>
+                            <td>Sarah Johnson</td>
+                            <td>Galaxy Pro X</td>
+                            <td><span class="badge-tag badge-tag-purple">Electronics</span></td>
+                            <td>1</td>
+                            <td>$899.99</td>
+                            <td class="body-sm-medium">$899.99</td>
+                            <td>Credit Card</td>
+                            <td>Downtown</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005009</span></td>
+                            <td>2025-12-31</td>
+                            <td>Mike Chen</td>
+                            <td>Slim Fit Denim</td>
+                            <td><span class="badge-tag badge-tag-orange">Clothing</span></td>
+                            <td>3</td>
+                            <td>$49.99</td>
+                            <td class="body-sm-medium">$149.97</td>
+                            <td>Debit Card</td>
+                            <td>Mall Central</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005008</span></td>
+                            <td>2025-12-30</td>
+                            <td>Emily Davis</td>
+                            <td>Whole Milk 1L</td>
+                            <td><span class="badge-tag badge-tag-green">Groceries</span></td>
+                            <td>4</td>
+                            <td>$3.49</td>
+                            <td class="body-sm-medium">$13.96</td>
+                            <td>Cash</td>
+                            <td>Suburban</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005007</span></td>
+                            <td>2025-12-30</td>
+                            <td>Robert Wilson</td>
+                            <td>Dumbbell Set</td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-sky); color: var(--link-blue);">Sports</span></td>
+                            <td>1</td>
+                            <td>$79.99</td>
+                            <td class="body-sm-medium">$79.99</td>
+                            <td>Digital Wallet</td>
+                            <td>Harbor Point</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005006</span></td>
+                            <td>2025-12-29</td>
+                            <td>Amanda Lee</td>
+                            <td>Bookshelf Oak</td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-peach); color: var(--brand-orange);">Home</span></td>
+                            <td>1</td>
+                            <td>$189.99</td>
+                            <td class="body-sm-medium">$189.99</td>
+                            <td>Credit Card</td>
+                            <td>Eastside</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--sp-lg);">
+                    <span class="body-sm" style="color: var(--steel);">Showing 1–5 of 5,010 transactions</span>
+                    <div style="display: flex; gap: 4px;">
+                        <button class="btn btn-ghost btn-sm" disabled>← Prev</button>
+                        <button class="btn btn-sm" style="background: var(--primary); color: white; border-radius: var(--rounded-md);">1</button>
+                        <button class="btn btn-ghost btn-sm">2</button>
+                        <button class="btn btn-ghost btn-sm">3</button>
+                        <button class="btn btn-ghost btn-sm">...</button>
+                        <button class="btn btn-ghost btn-sm">1002</button>
+                        <button class="btn btn-ghost btn-sm">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
