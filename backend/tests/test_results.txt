@@ -1,0 +1,97 @@
+================================================================================
+  MARKETMIND AI — AUTOMATED TEST EXECUTION REPORT
+================================================================================
+Execution Timestamp : 2026-09-01 16:25:25
+Execution Status    : ALL TESTS PASSED (Exit Code: 0)
+Python Environment  : D:\Team_3_Small_Biz_Sales\backend\venv\Scripts\python.exe
+Platform            : win32
+================================================================================
+
+TEST SUITES EXECUTED:
+  1. tests/test_forecasting.py   - AI Forecasting Engine (XGBoost, RF, Prophet)
+  2. tests/test_churn.py         - Churn Prediction Engine (RFM, XGBoost, Risk Tiers)
+  3. tests/test_api_endpoints.py - FastAPI AI REST Endpoints
+  4. tests/test_data_integrity.py- Superstore Transaction Dataset (data.csv)
+
+================================================================================
+PYTEST VERBOSE EXECUTION OUTPUT:
+================================================================================
+============================= test session starts =============================
+platform win32 -- Python 3.13.3, pytest-9.1.1, pluggy-1.6.0 -- D:\Project\Team_3_Small_Biz_Sales\backend\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Team_3_Small_Biz_Sales\backend
+plugins: anyio-4.14.2
+collecting ... collected 20 items
+
+tests/test_api_endpoints.py::test_api_root_status PASSED                 [  5%]
+tests/test_api_endpoints.py::test_get_revenue_forecast_endpoint PASSED   [ 10%]
+tests/test_api_endpoints.py::test_get_churn_predictions_batch_endpoint PASSED [ 15%]
+tests/test_api_endpoints.py::test_get_churn_scores_endpoint PASSED       [ 20%]
+tests/test_api_endpoints.py::test_post_retrain_endpoint PASSED           [ 25%]
+tests/test_churn.py::test_clean_numeric_pluralization PASSED             [ 30%]
+tests/test_churn.py::test_assign_risk_tier PASSED                        [ 35%]
+tests/test_churn.py::test_predict_customer_churn_heuristic PASSED        [ 40%]
+tests/test_churn.py::test_load_customer_rfm PASSED                       [ 45%]
+tests/test_churn.py::test_train_churn_models PASSED                      [ 50%]
+tests/test_churn.py::test_generate_churn_predictions_full_pipeline PASSED [ 55%]
+tests/test_data_integrity.py::test_data_csv_exists PASSED                [ 60%]
+tests/test_data_integrity.py::test_data_csv_schema_and_columns PASSED    [ 65%]
+tests/test_data_integrity.py::test_data_csv_dates_and_sales PASSED       [ 70%]
+tests/test_forecasting.py::test_clean_pluralized_string_units PASSED     [ 75%]
+tests/test_forecasting.py::test_clean_pluralized_string_edge_cases PASSED [ 80%]
+tests/test_forecasting.py::test_load_and_preprocess_sales_data PASSED    [ 85%]
+tests/test_forecasting.py::test_generate_sales_forecast_structure PASSED [ 90%]
+tests/test_forecasting.py::test_forecast_confidence_intervals PASSED     [ 95%]
+tests/test_forecasting.py::test_model_metrics_validity PASSED            [100%]
+
+============================== warnings summary ===============================
+..\..\Project\Team_3_Small_Biz_Sales\backend\venv\Lib\site-packages\fastapi\testclient.py:1
+  D:\Project\Team_3_Small_Biz_Sales\backend\venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+app\core\config.py:4
+  D:\Team_3_Small_Biz_Sales\backend\app\core\config.py:4: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class Settings(BaseSettings):
+
+app\schemas\auth.py:25
+  D:\Team_3_Small_Biz_Sales\backend\app\schemas\auth.py:25: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class UserResponse(BaseModel):
+
+app\schemas\sales.py:4
+  D:\Team_3_Small_Biz_Sales\backend\app\schemas\sales.py:4: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class InvoiceItemResponse(BaseModel):
+
+app\schemas\sales.py:15
+  D:\Team_3_Small_Biz_Sales\backend\app\schemas\sales.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class InvoiceResponse(BaseModel):
+
+app\schemas\products.py:4
+  D:\Team_3_Small_Biz_Sales\backend\app\schemas\products.py:4: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class ProductResponse(BaseModel):
+
+app\schemas\customers.py:4
+  D:\Team_3_Small_Biz_Sales\backend\app\schemas\customers.py:4: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class CustomerResponse(BaseModel):
+
+app\main.py:35
+  D:\Team_3_Small_Biz_Sales\backend\app\main.py:35: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+..\..\Project\Team_3_Small_Biz_Sales\backend\venv\Lib\site-packages\fastapi\applications.py:4681
+  D:\Project\Team_3_Small_Biz_Sales\backend\venv\Lib\site-packages\fastapi\applications.py:4681: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 20 passed, 9 warnings in 9.02s ========================
+
+================================================================================

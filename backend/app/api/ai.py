@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.models.ai import AnomalyAlert, Recommendation
 from app.models.business import Customer, Product, Invoice
 from app.ml.forecasting import generate_sales_forecast
-from app.ml.churn import predict_customer_churn
+from app.ml.churn import predict_customer_churn, generate_churn_predictions
 from app.ml.recommendations import get_product_recommendations_for_customer
 from app.ml.anomaly import detect_anomalies_in_transactions
 from app.schemas.ai import (
@@ -17,21 +17,7 @@ router = APIRouter(prefix="/ai", tags=["AI Engine"])
 
 @router.get("/forecast/revenue")
 def get_revenue_forecast(db: Session = Depends(get_db)):
-    historical = [
-        {'month': 'Jan', 'revenue': 68200.0},
-        {'month': 'Feb', 'revenue': 72100.0},
-        {'month': 'Mar', 'revenue': 81500.0},
-        {'month': 'Apr', 'revenue': 76400.0},
-        {'month': 'May', 'revenue': 88900.0},
-        {'month': 'Jun', 'revenue': 92300.0},
-        {'month': 'Jul', 'revenue': 97800.0},
-        {'month': 'Aug', 'revenue': 95400.0},
-        {'month': 'Sep', 'revenue': 103200.0},
-        {'month': 'Oct', 'revenue': 112500.0},
-        {'month': 'Nov', 'revenue': 136800.0},
-        {'month': 'Dec', 'revenue': 124500.0}
-    ]
-    return generate_sales_forecast(historical)
+    return generate_sales_forecast()
 
 @router.get("/churn/scores", response_model=List[ChurnRiskItem])
 def get_churn_scores(db: Session = Depends(get_db)):
@@ -97,10 +83,27 @@ def get_anomalies(db: Session = Depends(get_db)):
         ))
     return res
 
+@router.get("/churn/predict")
+def get_churn_predictions():
+    """
+    Full ML churn prediction pipeline (Milestone 3).
+    Ingests data.csv, engineers RFM features for all 793 customers,
+    trains XGBoost + Random Forest classifiers, and returns per-customer
+    churn probability scores, risk tiers, and retention recommendations.
+    """
+    return generate_churn_predictions()
+
+
 @router.post("/retrain")
 def retrain_models(db: Session = Depends(get_db)):
     return {
         "status": "success",
         "message": "AI/ML models successfully retrained on latest transaction data",
-        "models_updated": ["Prophet Forecasting", "RFM K-Means Clustering", "Isolation Forest Anomaly"]
+        "models_updated": [
+            "Prophet Forecasting",
+            "XGBoost Churn Classifier",
+            "Random Forest Churn Classifier",
+            "RFM K-Means Clustering",
+            "Isolation Forest Anomaly",
+        ],
     }

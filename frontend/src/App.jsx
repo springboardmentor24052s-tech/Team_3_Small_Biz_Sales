@@ -7,9 +7,11 @@ import Sales from './pages/Sales/Sales';
 import Inventory from './pages/Inventory/Inventory';
 import Customers from './pages/Customers/Customers';
 import AIInsights from './pages/AIInsights/AIInsights';
+import ChurnPrediction from './pages/ChurnPrediction/ChurnPrediction';
 import Reports from './pages/Reports/Reports';
 import Settings from './pages/Settings/Settings';
 import Login from './pages/Login/Login';
+import Landing from './pages/Landing/Landing';
 
 function LoginWrapper() {
   const { user } = useAuth();
@@ -18,6 +20,17 @@ function LoginWrapper() {
     return <Navigate to={defaultPath} replace />;
   }
   return <Login />;
+}
+
+function HomeWrapper() {
+  const { user } = useAuth();
+  if (!user) {
+    return <Landing />;
+  }
+  if (user.role === 'SALES') {
+    return <Navigate to="/sales" replace />;
+  }
+  return <Dashboard />;
 }
 
 function ProtectedRoute({ children, allowedRoles }) {
@@ -35,8 +48,14 @@ function ProtectedRoute({ children, allowedRoles }) {
 function AppLayout() {
   const { user } = useAuth();
 
+  // If user is not logged in, only allow Landing page or redirect to /login
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return (
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    );
   }
 
   const defaultPath = user.role === 'SALES' ? '/sales' : '/';
@@ -84,6 +103,14 @@ function AppLayout() {
             element={
               <ProtectedRoute allowedRoles={['ADMIN', 'OWNER']}>
                 <AIInsights />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/churn-prediction"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'OWNER']}>
+                <ChurnPrediction />
               </ProtectedRoute>
             }
           />

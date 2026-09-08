@@ -1,16 +1,17 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Sparkles, Shield, KeyRound, AlertCircle, LogIn, Lock, CheckCircle2, UserPlus, Check } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { Sparkles, Shield, KeyRound, AlertCircle, LogIn, Lock, CheckCircle2, UserPlus, Check, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import './Login.css';
 
 export default function Login() {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [isSignUp, setIsSignUp] = useState(searchParams.get('signup') === 'true');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState('OWNER');
   
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -18,6 +19,12 @@ export default function Login() {
   
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchParams.get('signup') === 'true') {
+      setIsSignUp(true);
+    }
+  }, [searchParams]);
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +93,12 @@ export default function Login() {
   return (
     <div className="login-container animate-in">
       <div className="login-card">
+        {/* Back Link */}
+        <Link to="/" className="login-back-link">
+          <ArrowLeft size={16} />
+          <span>Back to Home</span>
+        </Link>
+
         {/* Header */}
         <div className="login-header">
           <div className="login-brand-icon">

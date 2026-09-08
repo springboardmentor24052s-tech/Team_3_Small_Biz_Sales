@@ -51,6 +51,7 @@ export const api = {
   // AI Insights
   getRevenueForecast: () => fetchAPI('/ai/forecast/revenue'),
   getChurnScores: () => fetchAPI('/ai/churn/scores'),
+  getChurnPredictions: () => fetchAPI('/ai/churn/predict'),  // Full ML batch (Milestone 3)
   getRecommendations: () => fetchAPI('/ai/recommendations'),
   getAnomalies: () => fetchAPI('/ai/anomalies'),
   retrainModels: () => fetchAPI('/ai/retrain', { method: 'POST' }),
