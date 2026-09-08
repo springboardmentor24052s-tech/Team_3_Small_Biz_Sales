@@ -1,7 +1,7 @@
 ================================================================================
   MARKETMIND AI — AUTOMATED TEST EXECUTION REPORT
 ================================================================================
-Execution Timestamp : 2026-09-08 21:27:23
+Execution Timestamp : 2026-09-08 21:34:32
 Execution Status    : ALL TESTS PASSED (Exit Code: 0)
 Python Environment  : D:\Project\Team_3_Small_Biz_Sales\backend\venv\Scripts\python.exe
 Platform            : win32
@@ -91,7 +91,11 @@ venv\Lib\site-packages\fastapi\applications.py:4681
           
     return self.router.on_event(event_type)  # ty: ignore[deprecated]
 
+tests/test_api_endpoints.py::test_post_retrain_endpoint
+  D:\Project\Team_3_Small_Biz_Sales\backend\venv\Lib\site-packages\sqlalchemy\sql\schema.py:3627: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 20 passed, 9 warnings in 13.17s =======================
+====================== 20 passed, 10 warnings in 18.70s =======================
 
 ================================================================================
