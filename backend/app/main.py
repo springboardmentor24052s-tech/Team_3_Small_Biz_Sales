@@ -12,6 +12,7 @@ from app.api.customers import router as customers_router
 from app.api.ai import router as ai_router
 from app.api.reports import router as reports_router
 from app.api.upload import router as upload_router
+from app.api.segmentation import router as segmentation_router
 
 # Create DB tables
 Base.metadata.create_all(bind=engine)
@@ -49,6 +50,7 @@ app.include_router(customers_router, prefix=settings.API_V1_STR)
 app.include_router(ai_router, prefix=settings.API_V1_STR)
 app.include_router(reports_router, prefix=settings.API_V1_STR)
 app.include_router(upload_router, prefix=settings.API_V1_STR)
+app.include_router(segmentation_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def root():

@@ -8,6 +8,7 @@ import Inventory from './pages/Inventory/Inventory';
 import Customers from './pages/Customers/Customers';
 import AIInsights from './pages/AIInsights/AIInsights';
 import ChurnPrediction from './pages/ChurnPrediction/ChurnPrediction';
+import Segmentation from './pages/Segmentation/Segmentation';
 import Reports from './pages/Reports/Reports';
 import Settings from './pages/Settings/Settings';
 import Login from './pages/Login/Login';
@@ -111,6 +112,14 @@ function AppLayout() {
             element={
               <ProtectedRoute allowedRoles={['ADMIN', 'OWNER']}>
                 <ChurnPrediction />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/segmentation"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'OWNER', 'MANAGER', 'SALES']}>
+                <Segmentation />
               </ProtectedRoute>
             }
           />

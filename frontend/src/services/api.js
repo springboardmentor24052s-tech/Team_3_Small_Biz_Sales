@@ -48,6 +48,15 @@ export const api = {
   getCustomerSegments: () => fetchAPI('/customers/segments'),
   getRFMScatter: () => fetchAPI('/customers/rfm-scatter'),
 
+  // Customer Segmentation (K-Means & Unsupervised Learning)
+  getSegmentationSummary: () => fetchAPI('/segmentation/summary'),
+  getSegmentationClusters: () => fetchAPI('/segmentation/clusters'),
+  getSegmentationCustomers: (params = '') => fetchAPI(`/segmentation/customers${params}`),
+  getSegmentationMetrics: () => fetchAPI('/segmentation/metrics'),
+  getSegmentationCustomerDetail: (customerId) => fetchAPI(`/segmentation/customers/${customerId}`),
+  trainSegmentation: (minK = 2, maxK = 8) => fetchAPI(`/segmentation/train?min_k=${minK}&max_k=${maxK}`, { method: 'POST' }),
+  predictSegmentation: (features) => fetchAPI('/segmentation/predict', { method: 'POST', body: JSON.stringify(features) }),
+
   // AI Insights
   getRevenueForecast: () => fetchAPI('/ai/forecast/revenue'),
   getChurnScores: () => fetchAPI('/ai/churn/scores'),
