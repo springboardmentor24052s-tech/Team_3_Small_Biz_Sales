@@ -1,6 +1,10 @@
 """
 generate_sahil_individual_docx.py
 Generates "Individual work - Sahil.docx" matching the exact structure of the PDF.
+Milestone 1: Full-Stack Development: Frontend, Backend & Database Architecture
+Milestone 2: AI Revenue & Demand Forecasting Engine
+Milestone 3: Customer Churn Prediction System & Testing Suite
+Milestone 4: Application Deployment (kept exactly as in original)
 """
 
 import os
@@ -16,7 +20,7 @@ def set_cell_background(cell, fill_hex):
     shd = parse_xml(f'<w:shd {nsdecls("w")} w:fill="{fill_hex}"/>')
     tcPr.append(shd)
 
-def set_cell_margins(cell, top=70, bottom=70, left=100, right=100):
+def set_cell_margins(cell, top=60, bottom=60, left=90, right=90):
     tcPr = cell._tc.get_or_add_tcPr()
     tcMar = parse_xml(
         f'<w:tcMar {nsdecls("w")}>'
@@ -54,7 +58,7 @@ def build_table(doc, data, col_widths, col1_bold=True):
         cell = table.cell(0, c_idx)
         cell.width = Inches(col_widths[c_idx])
         set_cell_background(cell, NAVY_HEX)
-        set_cell_margins(cell, top=80, bottom=80, left=100, right=100)
+        set_cell_margins(cell, top=70, bottom=70, left=90, right=90)
         set_cell_borders(cell, "8EA9C1")
         p = cell.paragraphs[0]
         p.paragraph_format.space_after = Pt(2)
@@ -72,7 +76,7 @@ def build_table(doc, data, col_widths, col1_bold=True):
             cell = table.cell(r_idx, c_idx)
             cell.width = Inches(col_widths[c_idx])
             set_cell_background(cell, bg)
-            set_cell_margins(cell, top=60, bottom=60, left=90, right=90)
+            set_cell_margins(cell, top=55, bottom=55, left=80, right=80)
             set_cell_borders(cell, "8EA9C1")
             p = cell.paragraphs[0]
             p.paragraph_format.space_after = Pt(1.5)
@@ -95,7 +99,6 @@ def create_docx():
         s.right_margin = Inches(0.75)
 
     NAVY_RGB = RGBColor(31, 78, 121)
-    TEXT_RGB = RGBColor(26, 26, 26)
 
     # -------------------------------------------------------------
     # PAGE 1: COVER PAGE
@@ -151,7 +154,7 @@ def create_docx():
     doc.add_page_break()
 
     # -------------------------------------------------------------
-    # PAGE 2: SAHIL - MILESTONE 1 & 2
+    # PAGE 2: SAHIL - MILESTONE 1 (FRONTEND, BACKEND, DATABASE) & MILESTONE 2
     # -------------------------------------------------------------
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -160,46 +163,46 @@ def create_docx():
     r.font.size = Pt(16)
     r.font.bold = True
     r.font.color.rgb = NAVY_RGB
-    p.paragraph_format.space_after = Pt(12)
+    p.paragraph_format.space_after = Pt(10)
 
     # Milestone 1
     p = doc.add_paragraph()
-    r = p.add_run("Milestone 1 – Data Ingestion Pipeline, Robust Preprocessing & System Foundation")
+    r = p.add_run("Milestone 1 – Full-Stack Development: Frontend, Backend & Database Architecture")
     r.font.name = 'Calibri'
-    r.font.size = Pt(12.5)
+    r.font.size = Pt(12.0)
     r.font.bold = True
     r.font.color.rgb = NAVY_RGB
     p.paragraph_format.space_after = Pt(4)
 
     p = doc.add_paragraph(
-        "This milestone focused on architecting the full-stack system foundation, establishing the database ORM schemas, "
-        "and building a robust data ingestion and sanitization pipeline for the Superstore retail transaction dataset (data.csv). "
-        "Complex data-quality issues—specifically pluralized string units in numerical fields, mixed date formatting, and "
-        "customer profile aggregations—were identified, cleaned and validated to ensure reliable inputs for downstream predictive models."
+        "This milestone focused on designing, developing, and architecting the core full-stack foundation of the MarketMind AI "
+        "platform. This encompassed building the responsive React 18 single-page frontend application, creating the high-performance "
+        "FastAPI asynchronous REST backend, and architecting the relational database schemas with SQLAlchemy ORM and SQLite. "
+        "A robust 4-tier Role-Based Access Control (RBAC) security layer was integrated to protect system resources and data pipelines."
     )
     p.runs[0].font.name = 'Calibri'
-    p.runs[0].font.size = Pt(9.8)
-    p.paragraph_format.space_after = Pt(8)
+    p.runs[0].font.size = Pt(9.5)
+    p.paragraph_format.space_after = Pt(6)
 
     m1_data = [
         ["Activity", "Work Completed"],
-        ["System Architecture & Scaffolding", "Established asynchronous FastAPI REST backend, modular architecture, and React 18 frontend client."],
-        ["Data Ingestion Pipeline", "Ingested real-world commercial transaction records (data.csv) spanning 9,800 orders across 793 customers."],
-        ["String Pluralization Sanitization", "Developed regex parsers (clean_pluralized_string, _clean_numeric) to safely strip plural unit suffixes ('items', 'days', 'units') and eliminate type errors."],
-        ["Time-Series Chronological Aggregation", "Engineered day-first date validation and aggregated daily transaction logs into weekly and monthly continuous revenue streams."],
-        ["Customer Profile Aggregation", "Processed customer purchase history, lifetime monetary value, first/last purchase dates, and segment associations."],
-        ["Role-Based Security (RBAC)", "Implemented JWT authentication and 4-tier role-based access control (ADMIN, OWNER, MANAGER, SALES) securing sensitive endpoints."]
+        ["Frontend Development (React 18)", "Built responsive single-page web client using React 18 & Vite, reusable layout components (Sidebar, Header, ProtectedRoute), and custom CSS design system."],
+        ["Backend Architecture (FastAPI)", "Created asynchronous RESTful backend API with Uvicorn, modular routing layout (/sales, /products, /customers, /auth), and CORS middleware."],
+        ["Relational Database Design", "Architected relational schemas using SQLAlchemy ORM and SQLite for User, Role, Permission, Customer, Product, Invoice, and InvoiceItem models."],
+        ["Database Initialization & Seeding", "Developed automated database setup scripts (db_setup.py, seed.py) to initialize tables, seed demo users, and populate baseline commercial records."],
+        ["Authentication & RBAC Security", "Implemented secure JWT-based token authentication and 4-tier Role-Based Access Control (ADMIN, OWNER, MANAGER, SALES) across endpoints."],
+        ["API Service Layer Integration", "Engineered centralized frontend API client (api.js) connecting user interfaces to backend endpoints with automated token management."]
     ]
     build_table(doc, m1_data, [2.1, 4.9])
 
     p_sp = doc.add_paragraph()
-    p_sp.paragraph_format.space_before = Pt(10)
+    p_sp.paragraph_format.space_before = Pt(8)
 
     # Milestone 2
     p = doc.add_paragraph()
     r = p.add_run("Milestone 2 – AI Revenue & Demand Forecasting Engine")
     r.font.name = 'Calibri'
-    r.font.size = Pt(12.5)
+    r.font.size = Pt(12.0)
     r.font.bold = True
     r.font.color.rgb = NAVY_RGB
     p.paragraph_format.space_after = Pt(4)
@@ -211,8 +214,8 @@ def create_docx():
         "engineering, chronological validation splits, and upper/lower prediction bounds."
     )
     p.runs[0].font.name = 'Calibri'
-    p.runs[0].font.size = Pt(9.8)
-    p.paragraph_format.space_after = Pt(8)
+    p.runs[0].font.size = Pt(9.5)
+    p.paragraph_format.space_after = Pt(6)
 
     m2_data = [
         ["Activity", "Work Completed"],
@@ -226,10 +229,10 @@ def create_docx():
     build_table(doc, m2_data, [2.1, 4.9])
 
     p_res = doc.add_paragraph()
-    p_res.paragraph_format.space_before = Pt(6)
-    r = p_res.add_run("Result: The forecasting engine successfully achieved high predictive accuracy (R² = 0.88) across historical validations, enabling proactive inventory planning and cash flow management.")
+    p_res.paragraph_format.space_before = Pt(4)
+    r = p_res.add_run("Result: Successfully engineered the full-stack system architecture (Frontend, Backend, Database) and achieved high predictive forecasting accuracy (R² = 0.88), enabling proactive inventory and revenue planning.")
     r.font.name = 'Calibri'
-    r.font.size = Pt(9.5)
+    r.font.size = Pt(9.2)
     r.font.bold = True
     r.font.italic = True
     r.font.color.rgb = NAVY_RGB
@@ -242,7 +245,7 @@ def create_docx():
     p = doc.add_paragraph()
     r = p.add_run("Milestone 3 – Customer Churn Prediction System & Automated Testing Suite")
     r.font.name = 'Calibri'
-    r.font.size = Pt(12.5)
+    r.font.size = Pt(12.0)
     r.font.bold = True
     r.font.color.rgb = NAVY_RGB
     p.paragraph_format.space_after = Pt(4)
@@ -254,13 +257,13 @@ def create_docx():
         "calibrated churn probabilities and actionable retention strategies."
     )
     p.runs[0].font.name = 'Calibri'
-    p.runs[0].font.size = Pt(9.8)
-    p.paragraph_format.space_after = Pt(6)
+    p.runs[0].font.size = Pt(9.5)
+    p.paragraph_format.space_after = Pt(5)
 
     p = doc.add_paragraph()
     r = p.add_run("1. RFM Feature Engineering & Ground-Truth Formulation")
     r.font.name = 'Calibri'
-    r.font.size = Pt(10.5)
+    r.font.size = Pt(10.2)
     r.font.bold = True
     r.font.color.rgb = NAVY_RGB
     p.paragraph_format.space_after = Pt(2)
@@ -274,14 +277,14 @@ def create_docx():
     for b in bullets_1:
         p = doc.add_paragraph(b)
         p.runs[0].font.name = 'Calibri'
-        p.runs[0].font.size = Pt(9.2)
+        p.runs[0].font.size = Pt(9.0)
         p.paragraph_format.space_after = Pt(1.5)
 
     p = doc.add_paragraph()
-    p.paragraph_format.space_before = Pt(4)
+    p.paragraph_format.space_before = Pt(3)
     r = p.add_run("2. Supervised Classification & Interactive UI")
     r.font.name = 'Calibri'
-    r.font.size = Pt(10.5)
+    r.font.size = Pt(10.2)
     r.font.bold = True
     r.font.color.rgb = NAVY_RGB
     p.paragraph_format.space_after = Pt(2)
@@ -295,7 +298,7 @@ def create_docx():
     for b in bullets_2:
         p = doc.add_paragraph(b)
         p.runs[0].font.name = 'Calibri'
-        p.runs[0].font.size = Pt(9.2)
+        p.runs[0].font.size = Pt(9.0)
         p.paragraph_format.space_after = Pt(1.5)
 
     p_sp = doc.add_paragraph()
@@ -314,7 +317,7 @@ def create_docx():
     build_table(doc, m3_data, [2.1, 4.9])
 
     p_sp = doc.add_paragraph()
-    p_sp.paragraph_format.space_before = Pt(6)
+    p_sp.paragraph_format.space_before = Pt(5)
 
     tier_data = [
         ["Churn Risk Tier", "Probability", "Retention Action Strategy"],
@@ -328,14 +331,14 @@ def create_docx():
         "The churn prediction work was directly connected with the transaction preprocessing and RFM analytics performed in earlier milestones, translating raw purchase cadence into automated early-warning retention triggers."
     )
     p.runs[0].font.name = 'Calibri'
-    p.runs[0].font.size = Pt(9.5)
-    p.paragraph_format.space_before = Pt(4)
-    p.paragraph_format.space_after = Pt(3)
+    p.runs[0].font.size = Pt(9.2)
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(2)
 
     p_res = doc.add_paragraph()
     r = p_res.add_run("Result: The churn prediction system identified 270 high-risk accounts (34.0% of customer base) and provided actionable retention strategies, verified through 20/20 automated unit and integration tests.")
     r.font.name = 'Calibri'
-    r.font.size = Pt(9.5)
+    r.font.size = Pt(9.2)
     r.font.bold = True
     r.font.italic = True
     r.font.color.rgb = NAVY_RGB
@@ -414,10 +417,21 @@ def create_docx():
         r2.font.underline = True
         p_l.paragraph_format.space_after = Pt(2)
 
-    # Add images if available
     img0 = "page4_img_0_Image38.png"
     img1 = "page4_img_1_Image39.jpg"
     
+    # Extract images from Individual work.pdf if needed
+    if not os.path.exists(img0) or not os.path.exists(img1):
+        try:
+            import pypdf
+            reader = pypdf.PdfReader("Individual work.pdf")
+            p4 = reader.pages[3]
+            for idx, img in enumerate(p4.images):
+                with open(f"page4_img_{idx}_{img.name}", "wb") as f:
+                    f.write(img.data)
+        except Exception:
+            pass
+
     p_img = doc.add_paragraph()
     p_img.paragraph_format.space_before = Pt(8)
     
