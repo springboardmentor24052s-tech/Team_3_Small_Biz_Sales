@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MarketMind AI - Inventory Management with Stock Alerts and Warehouse Tracking">
+    <title>MarketMind AI — Inventory</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .stock-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: var(--rounded-full);
+        }
+        .stock-badge.ok { background: var(--card-tint-mint); color: var(--brand-green); }
+        .stock-badge.low { background: #fff3e0; color: var(--brand-orange); }
+        .stock-badge.critical { background: #fde8e8; color: var(--error); }
+        .stock-badge.out { background: #f5f5f5; color: var(--steel); }
+
+        .warehouse-card {
+            background: var(--canvas);
+            border: 1px solid var(--hairline);
+            border-radius: var(--rounded-lg);
+            padding: var(--sp-xl);
+            text-align: center;
+        }
+        .warehouse-card .warehouse-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .warehouse-card .warehouse-count {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .warehouse-card .warehouse-label {
+            font-size: 12px;
+            color: var(--steel);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- ═══ Sidebar ═══ -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">M</div>
+                <div class="sidebar-brand">Market<span>Mind</span></div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Main</div>
+                    <a href="dashboard.html" class="sidebar-item"><span class="icon">📊</span><span>Overview</span></a>
+                    <a href="sales.html" class="sidebar-item"><span class="icon">💰</span><span>Sales</span></a>
+                    <a href="inventory.html" class="sidebar-item active"><span class="icon">📦</span><span>Inventory</span></a>
+                    <a href="customers.html" class="sidebar-item"><span class="icon">👥</span><span>Customers</span></a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">AI & Intelligence</div>
+                    <a href="#" class="sidebar-item"><span class="icon">🔮</span><span>Forecasting</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">⚡</span><span>Churn Prediction</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">💡</span><span>Recommendations</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">🚨</span><span>Anomalies</span></a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Management</div>
+                    <a href="#" class="sidebar-item"><span class="icon">🧾</span><span>Invoices</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">📁</span><span>Upload Data</span></a>
+                    <a href="#" class="sidebar-item"><span class="icon">📋</span><span>Reports</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-avatar">SM</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">Store Manager</div>
+                        <div class="sidebar-user-role">Store Manager</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Inventory Management</h1>
+                    <p class="page-subtitle">Monitor stock levels, alerts, and warehouse capacity.</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary btn-sm">+ Add Product</button>
+                    <button class="btn btn-secondary btn-sm">Import CSV</button>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <select class="filter-select">
+                    <option>All Categories</option>
+                    <option>Electronics</option>
+                    <option>Clothing</option>
+                    <option>Groceries</option>
+                    <option>Home & Garden</option>
+                    <option>Sports</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Warehouses</option>
+                    <option>Warehouse Alpha - East</option>
+                    <option>Warehouse Beta - West</option>
+                    <option>Warehouse Gamma - Central</option>
+                    <option>Warehouse Delta - South</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Statuses</option>
+                    <option>OK</option>
+                    <option>Low</option>
+                    <option>Critical</option>
+                    <option>Out of Stock</option>
+                </select>
+                <input type="text" class="search-pill" placeholder="Search products..." style="width: 220px;">
+            </div>
+
+            <!-- Inventory KPIs -->
+            <div class="grid grid-4" style="margin-bottom: var(--sp-xl);">
+                <div class="kpi-card card-tint-mint" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">📦 Total Products</div>
+                    <div class="kpi-value">200</div>
+                    <div class="caption" style="color: var(--steel);">Across 5 categories</div>
+                </div>
+                <div class="kpi-card" style="background: #fff3e0; border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">⚠️ Low Stock</div>
+                    <div class="kpi-value" style="color: var(--brand-orange);">24</div>
+                    <div class="caption" style="color: var(--steel);">Approaching reorder</div>
+                </div>
+                <div class="kpi-card" style="background: #fde8e8; border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">🔴 Critical Stock</div>
+                    <div class="kpi-value" style="color: var(--error);">6</div>
+                    <div class="caption" style="color: var(--steel);">Below reorder level</div>
+                </div>
+                <div class="kpi-card card-tint-sky" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">📊 Turnover Rate</div>
+                    <div class="kpi-value">4.2×</div>
+                    <div class="kpi-change positive">↑ 0.3× vs last quarter</div>
+                </div>
+            </div>
+
+            <!-- Stock Alerts -->
+            <div class="card" style="padding: var(--sp-xl); margin-bottom: var(--sp-xl);">
+                <div class="chart-header">
+                    <h4 class="chart-title">🚨 Stock Alerts — Immediate Attention Required</h4>
+                    <span class="badge badge-error" style="font-size: 11px;">6 Critical</span>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item critical">
+                        <div class="alert-dot red"></div>
+                        <div style="flex: 1;">
+                            <div class="body-sm-medium">PROD-0023: TechPro AirPods Max</div>
+                            <div class="caption" style="color: var(--steel);">Stock: 2 units | Reorder Level: 10 | Electronics</div>
+                        </div>
+                        <button class="btn btn-primary btn-sm">Reorder</button>
+                    </div>
+                    <div class="alert-item critical">
+                        <div class="alert-dot red"></div>
+                        <div style="flex: 1;">
+                            <div class="body-sm-medium">PROD-0089: FreshFarm Organic Bananas</div>
+                            <div class="caption" style="color: var(--steel);">Stock: 0 units | Reorder Level: 30 | Groceries</div>
+                        </div>
+                        <button class="btn btn-primary btn-sm">Reorder</button>
+                    </div>
+                    <div class="alert-item critical">
+                        <div class="alert-dot red"></div>
+                        <div style="flex: 1;">
+                            <div class="body-sm-medium">PROD-0145: CozyNest Duvet Cover Set</div>
+                            <div class="caption" style="color: var(--steel);">Stock: 3 units | Reorder Level: 8 | Home & Garden</div>
+                        </div>
+                        <button class="btn btn-primary btn-sm">Reorder</button>
+                    </div>
+                    <div class="alert-item warning">
+                        <div class="alert-dot orange"></div>
+                        <div style="flex: 1;">
+                            <div class="body-sm-medium">PROD-0167: ActiveEdge Yoga Pants</div>
+                            <div class="caption" style="color: var(--steel);">Stock: 12 units | Reorder Level: 20 | Clothing</div>
+                        </div>
+                        <button class="btn btn-secondary btn-sm">Monitor</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warehouse Cards + Stock by Category -->
+            <div class="grid grid-6-6" style="margin-bottom: var(--sp-xl);">
+                <!-- Warehouse Distribution -->
+                <div class="chart-placeholder" style="min-height: 260px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">🏭 Warehouse Utilization</h4>
+                    </div>
+                    <div class="grid grid-2" style="padding: var(--sp-md); gap: var(--sp-md);">
+                        <div class="warehouse-card">
+                            <div class="warehouse-name">Alpha — East</div>
+                            <div class="warehouse-count">52</div>
+                            <div class="warehouse-label">products</div>
+                            <div class="progress-bar" style="margin-top: 8px;"><div class="progress-bar-fill" style="width: 78%; background: var(--primary);"></div></div>
+                        </div>
+                        <div class="warehouse-card">
+                            <div class="warehouse-name">Beta — West</div>
+                            <div class="warehouse-count">48</div>
+                            <div class="warehouse-label">products</div>
+                            <div class="progress-bar" style="margin-top: 8px;"><div class="progress-bar-fill" style="width: 72%; background: var(--brand-teal);"></div></div>
+                        </div>
+                        <div class="warehouse-card">
+                            <div class="warehouse-name">Gamma — Central</div>
+                            <div class="warehouse-count">55</div>
+                            <div class="warehouse-label">products</div>
+                            <div class="progress-bar" style="margin-top: 8px;"><div class="progress-bar-fill" style="width: 82%; background: var(--brand-orange);"></div></div>
+                        </div>
+                        <div class="warehouse-card">
+                            <div class="warehouse-name">Delta — South</div>
+                            <div class="warehouse-count">45</div>
+                            <div class="warehouse-label">products</div>
+                            <div class="progress-bar" style="margin-top: 8px;"><div class="progress-bar-fill" style="width: 68%; background: var(--brand-green);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock by Category -->
+                <div class="chart-placeholder" style="min-height: 260px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">📊 Stock Levels by Category</h4>
+                    </div>
+                    <div style="padding: var(--sp-md); flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Electronics</span>
+                                <span class="caption-bold">1,240 units</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 45%; background: var(--primary);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Clothing</span>
+                                <span class="caption-bold">3,800 units</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 72%; background: var(--brand-teal);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Groceries</span>
+                                <span class="caption-bold">8,500 units</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 95%; background: var(--brand-green);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Home & Garden</span>
+                                <span class="caption-bold">2,100 units</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 55%; background: var(--brand-orange);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm">Sports</span>
+                                <span class="caption-bold">2,600 units</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 60%; background: var(--brand-pink);"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Inventory Table -->
+            <div class="card" style="padding: var(--sp-xl);">
+                <div class="chart-header" style="margin-bottom: var(--sp-md);">
+                    <h4 class="chart-title">📋 Full Inventory</h4>
+                    <button class="btn btn-secondary btn-sm">Export</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Status</th>
+                            <th>Supplier</th>
+                            <th>Warehouse</th>
+                            <th>Last Restocked</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="body-sm-medium" style="color: var(--primary);">PROD-0001</td>
+                            <td>TechPro Galaxy Pro X</td>
+                            <td><span class="badge-tag badge-tag-purple">Electronics</span></td>
+                            <td class="body-sm-medium">45</td>
+                            <td>10</td>
+                            <td><span class="stock-badge ok">● OK</span></td>
+                            <td>GlobalSupply Co.</td>
+                            <td>Alpha - East</td>
+                            <td>2025-12-05</td>
+                        </tr>
+                        <tr>
+                            <td class="body-sm-medium" style="color: var(--primary);">PROD-0023</td>
+                            <td>TechPro AirPods Max</td>
+                            <td><span class="badge-tag badge-tag-purple">Electronics</span></td>
+                            <td class="body-sm-medium" style="color: var(--error);">2</td>
+                            <td>10</td>
+                            <td><span class="stock-badge critical">● Critical</span></td>
+                            <td>PrimeSource Ltd.</td>
+                            <td>Beta - West</td>
+                            <td>2025-11-20</td>
+                        </tr>
+                        <tr>
+                            <td class="body-sm-medium" style="color: var(--primary);">PROD-0089</td>
+                            <td>FreshFarm Organic Bananas</td>
+                            <td><span class="badge-tag badge-tag-green">Groceries</span></td>
+                            <td class="body-sm-medium" style="color: var(--error);">0</td>
+                            <td>30</td>
+                            <td><span class="stock-badge out">● Out</span></td>
+                            <td>DirectTrade Inc.</td>
+                            <td>Gamma - Central</td>
+                            <td>2025-12-10</td>
+                        </tr>
+                        <tr>
+                            <td class="body-sm-medium" style="color: var(--primary);">PROD-0112</td>
+                            <td>HomeCraft Bookshelf Oak</td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-peach); color: var(--brand-orange);">Home</span></td>
+                            <td class="body-sm-medium">32</td>
+                            <td>8</td>
+                            <td><span class="stock-badge ok">● OK</span></td>
+                            <td>QualityFirst Dist.</td>
+                            <td>Delta - South</td>
+                            <td>2025-12-01</td>
+                        </tr>
+                        <tr>
+                            <td class="body-sm-medium" style="color: var(--primary);">PROD-0167</td>
+                            <td>ActiveEdge Yoga Pants</td>
+                            <td><span class="badge-tag badge-tag-orange">Clothing</span></td>
+                            <td class="body-sm-medium" style="color: var(--brand-orange);">12</td>
+                            <td>20</td>
+                            <td><span class="stock-badge low">● Low</span></td>
+                            <td>FastFreight Suppliers</td>
+                            <td>Alpha - East</td>
+                            <td>2025-11-28</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

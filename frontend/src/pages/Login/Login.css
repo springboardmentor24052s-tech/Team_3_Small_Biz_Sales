@@ -16,6 +16,23 @@
   width: 100%;
   max-width: 440px;
   padding: 36px 32px;
+  position: relative;
+}
+
+.login-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: color var(--transition-fast);
+}
+
+.login-back-link:hover {
+  color: var(--primary-600);
 }
 
 .login-header {

@@ -5,6 +5,8 @@ import {
   Package,
   Users,
   Brain,
+  TrendingDown,
+  PieChart,
   FileBarChart,
   Settings,
   LogOut,
@@ -20,7 +22,9 @@ const allNavItems = [
   { path: '/sales', label: 'Sales', icon: TrendingUp, roles: ['ADMIN', 'OWNER', 'MANAGER', 'SALES'] },
   { path: '/products', label: 'Products', icon: Package, roles: ['ADMIN', 'OWNER', 'MANAGER', 'SALES'] },
   { path: '/customers', label: 'Customers', icon: Users, roles: ['ADMIN', 'OWNER'] },
+  { path: '/segmentation', label: 'Segmentation', icon: PieChart, roles: ['ADMIN', 'OWNER', 'MANAGER', 'SALES'] },
   { path: '/ai-insights', label: 'AI Insights', icon: Brain, roles: ['ADMIN', 'OWNER'] },
+  { path: '/churn-prediction', label: 'Churn Prediction', icon: TrendingDown, roles: ['ADMIN', 'OWNER'] },
   { path: '/reports', label: 'Reports', icon: FileBarChart, roles: ['ADMIN', 'OWNER', 'MANAGER'] },
 ];
 

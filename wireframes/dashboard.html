@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MarketMind AI - Main Analytics Dashboard with KPIs, revenue trends, and business insights">
+    <title>MarketMind AI — Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- ═══ Sidebar ═══ -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">M</div>
+                <div class="sidebar-brand">Market<span>Mind</span></div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Main</div>
+                    <a href="dashboard.html" class="sidebar-item active">
+                        <span class="icon">📊</span>
+                        <span>Overview</span>
+                    </a>
+                    <a href="sales.html" class="sidebar-item">
+                        <span class="icon">💰</span>
+                        <span>Sales</span>
+                    </a>
+                    <a href="inventory.html" class="sidebar-item">
+                        <span class="icon">📦</span>
+                        <span>Inventory</span>
+                    </a>
+                    <a href="customers.html" class="sidebar-item">
+                        <span class="icon">👥</span>
+                        <span>Customers</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">AI & Intelligence</div>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">🔮</span>
+                        <span>Forecasting</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">⚡</span>
+                        <span>Churn Prediction</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">💡</span>
+                        <span>Recommendations</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">🚨</span>
+                        <span>Anomalies</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Management</div>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">🧾</span>
+                        <span>Invoices</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">📁</span>
+                        <span>Upload Data</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <span class="icon">📋</span>
+                        <span>Reports</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-avatar">JD</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">John Doe</div>
+                        <div class="sidebar-user-role">Business Owner</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Overview Dashboard</h1>
+                    <p class="page-subtitle">Welcome back, John. Here's what's happening today.</p>
+                </div>
+                <div class="page-actions">
+                    <input type="date" class="input" style="width: 160px; height: 38px; font-size: 13px;" value="2025-12-31">
+                    <span style="color: var(--steel); font-size: 13px;">to</span>
+                    <input type="date" class="input" style="width: 160px; height: 38px; font-size: 13px;" value="2025-12-31">
+                    <button class="btn btn-secondary btn-sm">Export</button>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-4" style="margin-bottom: var(--sp-xl);">
+                <div class="kpi-card card-tint-mint" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">💰 Total Revenue</div>
+                    <div class="kpi-value">$284,520</div>
+                    <div class="kpi-change positive">↑ 12.5% vs last month</div>
+                </div>
+                <div class="kpi-card card-tint-sky" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">📦 Total Orders</div>
+                    <div class="kpi-value">5,010</div>
+                    <div class="kpi-change positive">↑ 8.3% vs last month</div>
+                </div>
+                <div class="kpi-card card-tint-lavender" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">👤 Active Customers</div>
+                    <div class="kpi-value">487</div>
+                    <div class="kpi-change positive">↑ 15.2% vs last month</div>
+                </div>
+                <div class="kpi-card card-tint-peach" style="border: 1px solid transparent; border-radius: var(--rounded-lg);">
+                    <div class="kpi-label">📊 Avg Order Value</div>
+                    <div class="kpi-value">$56.79</div>
+                    <div class="kpi-change positive">↑ 3.8% vs last month</div>
+                </div>
+            </div>
+
+            <!-- Revenue Trend + Alerts -->
+            <div class="grid grid-8-4" style="margin-bottom: var(--sp-xl);">
+                <!-- Revenue Trend Chart -->
+                <div class="chart-placeholder">
+                    <div class="chart-header">
+                        <h4 class="chart-title">📈 Revenue Trend (12 Months)</h4>
+                        <div style="display: flex; gap: 8px;">
+                            <span class="badge-tag badge-tag-purple">Monthly</span>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <div class="chart-bars">
+                            <div class="chart-bar" style="height: 45%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 40%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 55%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 58%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 62%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 70%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 73%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 68%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 63%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 66%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 85%; background: var(--primary);"></div>
+                            <div class="chart-bar" style="height: 95%; background: linear-gradient(to top, var(--primary), var(--brand-purple));"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--stone); margin-top: 8px; padding: 0 var(--sp-md);">
+                        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+                        <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                    </div>
+                </div>
+
+                <!-- Active Alerts -->
+                <div class="card" style="padding: var(--sp-xl);">
+                    <div class="chart-header">
+                        <h4 class="chart-title">🔔 Active Alerts</h4>
+                        <span class="badge badge-error" style="font-size: 11px;">23</span>
+                    </div>
+                    <div class="alert-list">
+                        <div class="alert-item critical">
+                            <div class="alert-dot red"></div>
+                            <div>
+                                <div class="body-sm-medium">Low Stock: 12 products</div>
+                                <div class="caption" style="color: var(--steel);">Below reorder level</div>
+                            </div>
+                        </div>
+                        <div class="alert-item warning">
+                            <div class="alert-dot orange"></div>
+                            <div>
+                                <div class="body-sm-medium">Anomalies: 3 detected</div>
+                                <div class="caption" style="color: var(--steel);">Unusual sales patterns</div>
+                            </div>
+                        </div>
+                        <div class="alert-item info">
+                            <div class="alert-dot blue"></div>
+                            <div>
+                                <div class="body-sm-medium">Churn Risk: 8 customers</div>
+                                <div class="caption" style="color: var(--steel);">High probability</div>
+                            </div>
+                        </div>
+                        <div class="alert-item" style="background-color: var(--card-tint-mint); border-left: 3px solid var(--success);">
+                            <div class="alert-dot green"></div>
+                            <div>
+                                <div class="body-sm-medium">Forecast Ready</div>
+                                <div class="caption" style="color: var(--steel);">Updated 2h ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Distribution + Top Products -->
+            <div class="grid grid-6-6" style="margin-bottom: var(--sp-xl);">
+                <!-- Sales by Category -->
+                <div class="chart-placeholder" style="min-height: 280px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">🥧 Sales by Category</h4>
+                    </div>
+                    <div class="chart-body" style="flex-direction: column; gap: 20px; background: none;">
+                        <div class="donut-placeholder"></div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 10px; height: 10px; background: var(--primary); border-radius: 2px;"></span> Electronics 28%
+                            </span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 10px; height: 10px; background: var(--brand-teal); border-radius: 2px;"></span> Clothing 24%
+                            </span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 10px; height: 10px; background: var(--brand-orange); border-radius: 2px;"></span> Groceries 20%
+                            </span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 10px; height: 10px; background: var(--brand-pink); border-radius: 2px;"></span> Home 16%
+                            </span>
+                            <span class="caption" style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 10px; height: 10px; background: var(--brand-green); border-radius: 2px;"></span> Sports 12%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="chart-placeholder" style="min-height: 280px;">
+                    <div class="chart-header">
+                        <h4 class="chart-title">🏆 Top 5 Products</h4>
+                    </div>
+                    <div style="padding: 0 var(--sp-md); flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm-medium">Galaxy Pro X</span>
+                                <span class="caption-bold" style="color: var(--primary);">$42,300</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 95%; background: var(--primary);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm-medium">iPhone Ultra</span>
+                                <span class="caption-bold" style="color: var(--brand-teal);">$38,750</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 82%; background: var(--brand-teal);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm-medium">Slim Fit Denim</span>
+                                <span class="caption-bold" style="color: var(--brand-orange);">$31,200</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 68%; background: var(--brand-orange);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm-medium">Vacuum Cordless</span>
+                                <span class="caption-bold" style="color: var(--brand-pink);">$27,800</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 58%; background: var(--brand-pink);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="body-sm-medium">Running Shoes Pro</span>
+                                <span class="caption-bold" style="color: var(--brand-green);">$24,100</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 50%; background: var(--brand-green);"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions Table -->
+            <div class="card" style="padding: var(--sp-xl);">
+                <div class="chart-header">
+                    <h4 class="chart-title">📋 Recent Transactions</h4>
+                    <a href="sales.html" class="btn btn-ghost btn-sm" style="color: var(--primary);">View All →</a>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005010</span></td>
+                            <td>Dec 31, 2025</td>
+                            <td>Sarah Johnson</td>
+                            <td>Galaxy Pro X</td>
+                            <td><span class="badge-tag badge-tag-purple">Electronics</span></td>
+                            <td class="body-sm-medium">$899.99</td>
+                            <td>Credit Card</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005009</span></td>
+                            <td>Dec 31, 2025</td>
+                            <td>Mike Chen</td>
+                            <td>Slim Fit Denim</td>
+                            <td><span class="badge-tag badge-tag-orange">Clothing</span></td>
+                            <td class="body-sm-medium">$149.97</td>
+                            <td>Debit Card</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005008</span></td>
+                            <td>Dec 30, 2025</td>
+                            <td>Emily Davis</td>
+                            <td>Whole Milk 1L</td>
+                            <td><span class="badge-tag badge-tag-green">Groceries</span></td>
+                            <td class="body-sm-medium">$13.96</td>
+                            <td>Cash</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005007</span></td>
+                            <td>Dec 30, 2025</td>
+                            <td>Robert Wilson</td>
+                            <td>Dumbbell Set</td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-sky); color: var(--link-blue);">Sports</span></td>
+                            <td class="body-sm-medium">$79.99</td>
+                            <td>Digital Wallet</td>
+                        </tr>
+                        <tr>
+                            <td><span class="body-sm-medium" style="color: var(--primary);">TXN-005006</span></td>
+                            <td>Dec 29, 2025</td>
+                            <td>Amanda Lee</td>
+                            <td>Bookshelf Oak</td>
+                            <td><span class="badge-tag" style="background: var(--card-tint-peach); color: var(--brand-orange);">Home</span></td>
+                            <td class="body-sm-medium">$189.99</td>
+                            <td>Credit Card</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

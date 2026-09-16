@@ -37,22 +37,94 @@ def get_customers(
         ))
     return res
 
+from app.ml.churn import _load_customer_rfm as load_customer_rfm
+
 @router.get("/segments", response_model=List[SegmentSummaryItem])
-def get_customer_segments():
+def get_customer_segments(db: Session = Depends(get_db)):
+    # 1. Try fetching from Customer DB table first
+    customers = db.query(Customer).all()
+    if customers:
+        seg_counts = {}
+        for c in customers:
+            seg = c.segment or "Champions"
+            seg_counts[seg] = seg_counts.get(seg, 0) + 1
+        total = len(customers)
+        colors = {
+            "Champions": "#6366f1", "Loyal Customers": "#10b981", "Potential Loyalists": "#0ea5e9",
+            "New Customers": "#f59e0b", "At Risk": "#f43f5e", "Need Attention": "#8b5cf6",
+            "About to Sleep": "#ec4899", "Hibernating": "#94a3b8", "Lost": "#64748b"
+        }
+        res = []
+        for name, count in seg_counts.items():
+            pct = round((count / total) * 100.0, 1) if total > 0 else 0.0
+            res.append(SegmentSummaryItem(
+                name=name,
+                count=count,
+                percentage=pct,
+                color=colors.get(name, "#6366f1"),
+                description=f"Active segment computed from {count} customer profiles"
+            ))
+        if res:
+            return res
+
+    # 2. Compute from real RFM dataset
+    rfm_df = load_customer_rfm()
+    if not rfm_df.empty and "segment" in rfm_df.columns:
+        seg_counts = rfm_df["segment"].value_counts()
+        total = len(rfm_df)
+        colors = {
+            "Champions": "#6366f1", "Loyal Customers": "#10b981", "Potential Loyalists": "#0ea5e9",
+            "New Customers": "#f59e0b", "At Risk": "#f43f5e", "Need Attention": "#8b5cf6",
+            "About to Sleep": "#ec4899", "Hibernating": "#94a3b8", "Lost": "#64748b"
+        }
+        res = []
+        for name, count in seg_counts.items():
+            pct = round((count / total) * 100.0, 1)
+            res.append(SegmentSummaryItem(
+                name=str(name),
+                count=int(count),
+                percentage=pct,
+                color=colors.get(str(name), "#6366f1"),
+                description=f"Real RFM cluster ({count} customers)"
+            ))
+        return res
+
     return [
         {"name": "Champions", "count": 420, "percentage": 9.6, "color": "#6366f1", "description": "High R, F, M scores – best customers"},
         {"name": "Loyal Customers", "count": 680, "percentage": 15.6, "color": "#10b981", "description": "High frequency and monetary value"},
         {"name": "Potential Loyalists", "count": 520, "percentage": 11.9, "color": "#0ea5e9", "description": "Recent buyers with growing frequency"},
         {"name": "New Customers", "count": 390, "percentage": 8.9, "color": "#f59e0b", "description": "Recent first-time buyers"},
-        {"name": "At Risk", "count": 350, "percentage": 8.0, "color": "#f43f5e", "description": "Previously active, declining engagement"},
-        {"name": "Need Attention", "count": 580, "percentage": 13.3, "color": "#8b5cf6", "description": "Above average R/F/M, starting to slip"},
-        {"name": "About to Sleep", "count": 440, "percentage": 10.1, "color": "#ec4899", "description": "Below average recency and frequency"},
-        {"name": "Hibernating", "count": 620, "percentage": 14.2, "color": "#94a3b8", "description": "Low activity across all RFM dimensions"},
-        {"name": "Lost", "count": 372, "percentage": 8.5, "color": "#64748b", "description": "Longest inactive, lowest scores"}
+        {"name": "At Risk", "count": 350, "percentage": 8.0, "color": "#f43f5e", "description": "Previously active, declining engagement"}
     ]
 
 @router.get("/rfm-scatter", response_model=List[RFMScatterPoint])
 def get_rfm_scatter():
+    rfm_df = load_customer_rfm()
+    if not rfm_df.empty:
+        # Sample or take top 50 points across segments for clean visualization
+        sample = rfm_df.head(50)
+        points = []
+        for _, row in sample.iterrows():
+            cid = row.get("customer_id", 0)
+            rec = float(row.get("recency", 30))
+            freq = float(row.get("frequency", 5))
+            mon = float(row.get("monetary", 500.0))
+            seg = str(row.get("segment", "Champions"))
+            # Normalise x (recency score 0-100) and y (frequency score 0-100)
+            x_score = round(max(5.0, 100.0 - (rec / 10.0)), 1)
+            y_score = round(min(98.0, 20.0 + (freq * 4.0)), 1)
+            points.append(RFMScatterPoint(
+                customerId=int(cid) if str(cid).isdigit() else 1000,
+                recency=int(rec),
+                frequency=int(freq),
+                monetary=round(mon, 2),
+                segment=seg,
+                x=x_score,
+                y=y_score
+            ))
+        if points:
+            return points
+
     return [
         {"customerId": 17850, "recency": 1, "frequency": 45, "monetary": 4287.0, "segment": "Champions", "x": 95.0, "y": 92.0},
         {"customerId": 13047, "recency": 3, "frequency": 38, "monetary": 3650.0, "segment": "Champions", "x": 88.0, "y": 85.0},
